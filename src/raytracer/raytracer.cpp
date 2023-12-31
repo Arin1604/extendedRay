@@ -224,9 +224,9 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
 
 
-            if ( j == 400 && i == 550) {
-                doPrint = true;
-            }
+//            if ( j == 400 && i == 550) {
+//                doPrint = true;
+//            }
 
             RayTraceScene scene1 = scene;
 

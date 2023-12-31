@@ -14,7 +14,7 @@ class RayTraceScene;
 class RayTracer
 {
 public:
-    float focalLength = 10.f;
+    float focalLength = 12.f;
     float apperture = 0.1f;
     bool dofEnable = true;
     int sample = 6;
