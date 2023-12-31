@@ -17,7 +17,7 @@
 #define UNSUPPORTED_ELEMENT(e) std::cout << ERROR_AT(e) << "unsupported element <" \
                                          << e.tagName().toStdString() << ">" << std::endl;
 
-// Students, please ignore this file.
+// READS JSON FILES AND POPULATES MEMBER DATA STRUCTURES
 ScenefileReader::ScenefileReader(const std::string &name) {
     file_name = name;
 
@@ -65,7 +65,7 @@ SceneNode *ScenefileReader::getRootNode() const {
     return m_root;
 }
 
-// This is where it all goes down...
+// FILE READER
 bool ScenefileReader::readJSON() {
     // Read the file
     QFile file(file_name.c_str());

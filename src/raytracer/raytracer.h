@@ -13,6 +13,9 @@ class RayTraceScene;
 class RayTracer
 {
 public:
+    float focalLength = 1.5f;
+    bool dofEnable = true;
+
     struct Config {
         bool enableShadow        = false;
         bool enableReflection    = false;
@@ -67,6 +70,8 @@ public:
     // @param imageData The pointer to the imageData to be filled.
     // @param scene The scene to be rendered.
     void render(RGBA *imageData, const RayTraceScene &scene);
+    glm::vec4 lensOffset();
+    void DOF(RGBA *imageData, const RayTraceScene &scene);
 
 private:
     const Config m_config;
