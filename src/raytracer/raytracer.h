@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <map>
 #include "utils/rgba.h"
 #include "utils/sceneparser.h"
 
@@ -13,8 +14,10 @@ class RayTraceScene;
 class RayTracer
 {
 public:
-    float focalLength = 1.5f;
+    float focalLength = 10.f;
+    float apperture = 0.1f;
     bool dofEnable = true;
+    int sample = 6;
 
     struct Config {
         bool enableShadow        = false;
@@ -71,6 +74,8 @@ public:
     // @param scene The scene to be rendered.
     void render(RGBA *imageData, const RayTraceScene &scene);
     glm::vec4 lensOffset();
+    RGBA lensMaker(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo> &textureMap);
+
     void DOF(RGBA *imageData, const RayTraceScene &scene);
 
 private:

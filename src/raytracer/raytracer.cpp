@@ -141,6 +141,45 @@ std::uint8_t floatToUint8(float x) {
     return round(x * 255.f);
 }
 
+RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap){
+
+    float redAcc = 0.f;
+    float greenAcc = 0.f;
+    float blueAcc = 0.f;
+
+    glm::vec4 focalPoint(glm::vec3(primaryRay.dir) * focalLength, 1.f);
+
+    for(int i = 0; i < sample; i++){
+
+        float newX = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+        float newY = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+        float newZ = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+
+        glm::vec4 offsetPos(newX, newY, newZ, primaryRay.pos[3]);
+
+        glm::vec3 newPosT = glm::vec3(primaryRay.pos) + apperture * glm::vec3(offsetPos);
+        glm::vec4 newPos(newPosT, primaryRay.pos[3]);
+
+        glm::vec4 newDir = glm::normalize(focalPoint - newPos);
+
+        Ray newRay{newPos, newDir};
+
+        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap);
+
+        redAcc = update.r + redAcc;
+        greenAcc = update.g + greenAcc ;
+        blueAcc = update.b + blueAcc;
+
+
+
+    }
+
+
+    return RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};
+
+
+}
+
 void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
 
@@ -182,7 +221,7 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
             Ray ray = Ray{eye, dir};
             Ray worldRay = scene.convertRaySpace(ray, scene.getCamera().getInverseViewMatrix());//Ray gets converted to world space
 
-            glm::vec4 focalPoint = worldRay.dir * focalLength;
+
 
 
             if ( j == 400 && i == 550) {
@@ -191,34 +230,8 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
             RayTraceScene scene1 = scene;
 
-            RGBA imageAcc;
-            float redAcc = 0.f;
-            float greenAcc = 0.f;
-            float blueAcc = 0.f;
-            RGBA update = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap);
 
-            for(int i = 0; i < 6; i++){
-                //calculate random offset for eye
-                // compute new origin vector using eye and offset
-                // compute new rayDir that starts at this new pos and is directed towards the focal point
-
-
-
-                redAcc = update.r + redAcc;
-                greenAcc = update.g + greenAcc ;
-                blueAcc = update.b + blueAcc;
-            }
-
-            glm::vec3 rgb(update.r, update.g, update.b);
-            glm::vec3 rgb2(redAcc/6.f, greenAcc/6.f, blueAcc/6.f);//vals dont look right
-
-            if(doPrint){
-            std::cout<< glm::to_string(rgb) << std::endl;
-                 std::cout<< glm::to_string(rgb2) << std::endl;
-            }
-            doPrint = false;
-
-            imageData[j * scene.width() + i] = RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};
+            imageData[j * scene.width() + i] = lensMaker(worldRay, doPrint, scene1, 0, textureMap);/*RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};*/
 
             //            RGBA{static_cast<uint8_t>(imageAcc.r /6.f), static_cast<uint8_t>(imageAcc.g/6.f), static_cast<uint8_t>(imageAcc.b/6.f), static_cast<uint8_t>(imageAcc.a/6.f)};
             //            doPrint = false;
