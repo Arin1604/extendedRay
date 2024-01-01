@@ -69,17 +69,93 @@ int main(int argc, char *argv[])
     // Recall from Lab 1 that you can access its elements like this: `data[i]`
     raytracer.render(data, rtScene);
 
+    ///TRYING WITH FOR LOOP
+//    for(int i = 0; i < 3; i++){
+//        // Saving the image
+//        QString temp = oImagePath.append(std::to_string(i));
+//        success = image.save(temp);
+//        if (!success) {
+//            success = image.save(temp, "PNG");
+//        }
+//        if (success) {
+//            std::cout << "Saved rendered image to \"" << temp.toStdString() << "\"" << std::endl;
+//        } else {
+//            std::cerr << "Error: failed to save image to \"" << temp.toStdString() << "\"" << std::endl;
+//        }
+//    }
+
+
+
+
+
+
+
     // Saving the image
-    success = image.save(oImagePath);
-    if (!success) {
-        success = image.save(oImagePath, "PNG");
-    }
-    if (success) {
-        std::cout << "Saved rendered image to \"" << oImagePath.toStdString() << "\"" << std::endl;
-    } else {
-        std::cerr << "Error: failed to save image to \"" << oImagePath.toStdString() << "\"" << std::endl;
+    ///CORRECT CODE DO NOT CHANGE
+    ///
+    ///
+    ///
+//    QStringList list =  oImagePath.split(u'.');
+
+//    QString element = list.at(0);
+//    QString elt2 = list.at(1);
+//    QString elt3 = element.append(std::to_string(3)).append(".").append("png");
+    ///
+    ///
+    ///
+
+//    std::cout << "RAHHHHHH" << elt3.toStdString() <<std::endl;
+//    //QString temp = oImagePath;
+
+//    success = image.save(oImagePath);
+//    if (!success) {
+//        success = image.save(oImagePath, "PNG");
+//    }
+//    if (success) {
+//        std::cout << "Saved rendered image to \"" << oImagePath.toStdString() << "\"" << std::endl;
+//    } else {
+//        std::cerr << "Error: failed to save image to \"" << oImagePath.toStdString() << "\"" << std::endl;
+//    }
+
+
+    ///EXP CODE
+    for(int i = 0; i <100; i++){
+    QStringList list =  oImagePath.split(u'.');
+
+    QString element = list.at(0);
+    QString elt2 = list.at(1);
+    QString elt3 = element.append(std::to_string(i)).append(".").append("png");
+
+        success = image.save(elt3);
+        if (!success) {
+            success = image.save(elt3, "PNG");
+        }
+        if (success) {
+            std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+        } else {
+            std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+        }
     }
 
+
+
+//    for (const auto &item : list) {
+//        std::cout << item.toStdString() <<std::endl;
+//    }
+
+//    success = image.save(temp);
+
+//    if (!success) {
+//        success = image.save(oImagePath, "PNG");
+//    }
+//    if (success) {
+//        std::cout << "Saved rendered image to \"" << temp.toStdString() << "\"" << std::endl;
+//    } else {
+//        std::cerr << "Error: failed to save image to \"" << temp.toStdString() << "\"" << std::endl;
+//    }
+
+
+//DO NOT CHANGE
     a.exit();
     return 0;
 }

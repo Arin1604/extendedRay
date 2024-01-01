@@ -14,11 +14,12 @@ class RayTraceScene;
 class RayTracer
 {
 public:
-    float focalLength = 16.f;
+    float focalLength = 40.f;
     float apperture = 0.09f;
-    float planeZ = 1.f;
+    float planeZ = 1.7f;
     bool dofEnable = true;
     int sample = 6;
+    //PUT THIS IN CONFIG TO GET ANIMATIONS
 
     struct Config {
         bool enableShadow        = false;
