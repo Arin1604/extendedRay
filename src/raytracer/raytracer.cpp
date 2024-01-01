@@ -175,7 +175,7 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
     }
 
 
-    return RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};
+    return RGBA{static_cast<uint8_t>((redAcc/sample)), static_cast<uint8_t>((greenAcc/sample)), static_cast<uint8_t>((blueAcc/sample)), 255};
 
 
 }
@@ -209,7 +209,7 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
             float k = 1.f;
             float x = ((i + 0.5)/(float)scene.width()) - 0.5;
             float y = (((float)scene.height() - 1 - j + 0.5)/(float)scene.height()) - 0.5;
-            float z = -k;
+            float z = -planeZ;
 
             float V = 2*k* tan(scene.getCamera().getHeightAngle()/2.f);
             float U = V * scene.getCamera().getAspectRatio();
