@@ -15,7 +15,7 @@ class RayTracer
 {
 public:
     float focalLength = 40.f;
-    float apperture = 0.09f;
+    //float apperture = 0.09f;
     float planeZ = 1.7f;
     bool dofEnable = true;
     int sample = 6;
@@ -32,6 +32,7 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
+        float apperture = 0.0001f;
         bool onlyRenderNormals   = false;
     };
 

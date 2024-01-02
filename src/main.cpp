@@ -7,6 +7,14 @@
 #include "utils/sceneparser.h"
 #include "raytracer/raytracer.h"
 #include "raytracer/raytracescene.h"
+#include <sstream>
+#include <iomanip>
+
+std::string to_format(const int number) {
+    std::stringstream ss;
+    ss << std::setw(4) << std::setfill('0') << number;
+    return ss.str();
+}
 
 int main(int argc, char *argv[])
 {
@@ -60,7 +68,9 @@ int main(int argc, char *argv[])
     rtConfig.enableDepthOfField  = settings.value("Feature/depthoffield").toBool();
     rtConfig.maxRecursiveDepth   = settings.value("Settings/maximum-recursive-depth").toInt();
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
+    for(int i = 0; i <240; i++){
 
+    rtConfig.apperture =    rtConfig.apperture + 0.0077f;
     RayTracer raytracer{ rtConfig };
 
     RayTraceScene rtScene{ width, height, metaData };
@@ -69,62 +79,21 @@ int main(int argc, char *argv[])
     // Recall from Lab 1 that you can access its elements like this: `data[i]`
     raytracer.render(data, rtScene);
 
-    ///TRYING WITH FOR LOOP
-//    for(int i = 0; i < 3; i++){
-//        // Saving the image
-//        QString temp = oImagePath.append(std::to_string(i));
-//        success = image.save(temp);
-//        if (!success) {
-//            success = image.save(temp, "PNG");
-//        }
-//        if (success) {
-//            std::cout << "Saved rendered image to \"" << temp.toStdString() << "\"" << std::endl;
-//        } else {
-//            std::cerr << "Error: failed to save image to \"" << temp.toStdString() << "\"" << std::endl;
-//        }
-//    }
 
-
-
-
-
-
-
-    // Saving the image
-    ///CORRECT CODE DO NOT CHANGE
-    ///
-    ///
-    ///
-//    QStringList list =  oImagePath.split(u'.');
-
-//    QString element = list.at(0);
-//    QString elt2 = list.at(1);
-//    QString elt3 = element.append(std::to_string(3)).append(".").append("png");
-    ///
-    ///
-    ///
-
-//    std::cout << "RAHHHHHH" << elt3.toStdString() <<std::endl;
-//    //QString temp = oImagePath;
-
-//    success = image.save(oImagePath);
-//    if (!success) {
-//        success = image.save(oImagePath, "PNG");
-//    }
-//    if (success) {
-//        std::cout << "Saved rendered image to \"" << oImagePath.toStdString() << "\"" << std::endl;
-//    } else {
-//        std::cerr << "Error: failed to save image to \"" << oImagePath.toStdString() << "\"" << std::endl;
-//    }
 
 
     ///EXP CODE
-    for(int i = 0; i <100; i++){
+    ///
+//    int a = 0000;
+
     QStringList list =  oImagePath.split(u'.');
+
+
+
 
     QString element = list.at(0);
     QString elt2 = list.at(1);
-    QString elt3 = element.append(std::to_string(i)).append(".").append("png");
+    QString elt3 = element.append(to_format(i)).append(".").append("png");
 
         success = image.save(elt3);
         if (!success) {

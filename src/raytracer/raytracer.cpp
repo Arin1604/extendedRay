@@ -157,7 +157,7 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
         glm::vec4 offsetPos(newX, newY, newZ, primaryRay.pos[3]);
 
-        glm::vec3 newPosT = glm::vec3(primaryRay.pos) + apperture * glm::vec3(offsetPos);
+        glm::vec3 newPosT = glm::vec3(primaryRay.pos) + m_config.apperture * glm::vec3(offsetPos);
         glm::vec4 newPos(newPosT, primaryRay.pos[3]);
 
         glm::vec4 newDir = glm::normalize(focalPoint - newPos);
