@@ -68,32 +68,221 @@ int main(int argc, char *argv[])
     rtConfig.enableDepthOfField  = settings.value("Feature/depthoffield").toBool();
     rtConfig.maxRecursiveDepth   = settings.value("Settings/maximum-recursive-depth").toInt();
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
-    for(int i = 0; i <240; i++){
-
-    rtConfig.apperture =    rtConfig.apperture + 0.0077f;
-    RayTracer raytracer{ rtConfig };
-
-    RayTraceScene rtScene{ width, height, metaData };
-
-    // Note that we're passing `data` as a pointer (to its first element)
-    // Recall from Lab 1 that you can access its elements like this: `data[i]`
-    raytracer.render(data, rtScene);
 
 
+    bool isVideo = false;
 
-
-    ///EXP CODE
+    ///FOR VIDEO
     ///
-//    int a = 0000;
 
-    QStringList list =  oImagePath.split(u'.');
+    if(isVideo){
+
+        for(int i = 0; i <240; i++){
+
+            rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
+            RayTracer raytracer{ rtConfig };
+
+            RayTraceScene rtScene{ width, height, metaData };
+
+            // Note that we're passing `data` as a pointer (to its first element)
+            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+            raytracer.render(data, rtScene);
+
+            QStringList list =  oImagePath.split(u'.');
 
 
 
 
-    QString element = list.at(0);
-    QString elt2 = list.at(1);
-    QString elt3 = element.append(to_format(i)).append(".").append("png");
+            QString element = list.at(0);
+            QString elt2 = list.at(1);
+            QString elt3 = element.append("focalmove").append(to_format(i)).append(".").append("png");
+
+            success = image.save(elt3);
+            if (!success) {
+                success = image.save(elt3, "PNG");
+            }
+            if (success) {
+                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+            } else {
+                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+            }
+        }
+    }
+    ///END FOR VIDEO
+    ///
+
+    ///FOR VIDEO
+    ///
+
+    if(isVideo){
+
+        for(int i = 0; i <240; i++){
+
+            rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
+            RayTracer raytracer{ rtConfig };
+
+            RayTraceScene rtScene{ width, height, metaData };
+
+            // Note that we're passing `data` as a pointer (to its first element)
+            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+            raytracer.render(data, rtScene);
+
+            QStringList list =  oImagePath.split(u'.');
+
+
+
+
+            QString element = list.at(0);
+            QString elt2 = list.at(1);
+            QString elt3 = element.append("zmov").append(to_format(i)).append(".").append("png");
+
+            success = image.save(elt3);
+            if (!success) {
+                success = image.save(elt3, "PNG");
+            }
+            if (success) {
+                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+            } else {
+                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+            }
+        }
+    }
+    ///END FOR VIDEO
+
+
+    ///FOR VIDEO
+    ///
+
+    if(isVideo){
+
+        for(int i = 0; i <240; i++){
+
+            rtConfig.apperture =    rtConfig.apperture + 0.007f;
+            RayTracer raytracer{ rtConfig };
+
+            RayTraceScene rtScene{ width, height, metaData };
+
+            // Note that we're passing `data` as a pointer (to its first element)
+            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+            raytracer.render(data, rtScene);
+
+            QStringList list =  oImagePath.split(u'.');
+
+
+
+
+            QString element = list.at(0);
+            QString elt2 = list.at(1);
+            QString elt3 = element.append("appertureMove").append(to_format(i)).append(".").append("png");
+
+            success = image.save(elt3);
+            if (!success) {
+                success = image.save(elt3, "PNG");
+            }
+            if (success) {
+                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+            } else {
+                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+            }
+        }
+    }
+    ///END FOR VIDEO
+
+    ///FOR VIDEO
+    ///
+
+    if(isVideo){
+
+        for(int i = 0; i <240; i++){
+
+            rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
+            rtConfig.planeZ =    rtConfig.planeZ - 0.1f;
+            RayTracer raytracer{ rtConfig };
+
+            RayTraceScene rtScene{ width, height, metaData };
+
+            // Note that we're passing `data` as a pointer (to its first element)
+            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+            raytracer.render(data, rtScene);
+
+            QStringList list =  oImagePath.split(u'.');
+
+
+
+
+            QString element = list.at(0);
+            QString elt2 = list.at(1);
+            QString elt3 = element.append("minusZFocalTogether").append(to_format(i)).append(".").append("png");
+
+            success = image.save(elt3);
+            if (!success) {
+                success = image.save(elt3, "PNG");
+            }
+            if (success) {
+                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+            } else {
+                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+            }
+        }
+    }
+    ///END FOR VIDEO
+    ///
+
+    if(isVideo){
+
+        for(int i = 0; i <240; i++){
+
+            rtConfig.focalLength =    rtConfig.focalLength - 0.1f;
+            rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
+            RayTracer raytracer{ rtConfig };
+
+            RayTraceScene rtScene{ width, height, metaData };
+
+            // Note that we're passing `data` as a pointer (to its first element)
+            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+            raytracer.render(data, rtScene);
+
+            QStringList list =  oImagePath.split(u'.');
+
+
+
+
+            QString element = list.at(0);
+            QString elt2 = list.at(1);
+            QString elt3 = element.append("zFocalTogether").append(to_format(i)).append(".").append("png");
+
+            success = image.save(elt3);
+            if (!success) {
+                success = image.save(elt3, "PNG");
+            }
+            if (success) {
+                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
+            } else {
+                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
+            }
+        }
+    }
+    ///END FOR VIDEO
+
+
+    ///FOR IMAGE
+    else{
+        RayTracer raytracer{ rtConfig };
+
+        RayTraceScene rtScene{ width, height, metaData };
+
+        // Note that we're passing `data` as a pointer (to its first element)
+        // Recall from Lab 1 that you can access its elements like this: `data[i]`
+        raytracer.render(data, rtScene);
+
+        QStringList list =  oImagePath.split(u'.');
+
+
+
+
+        QString element = list.at(0);
+        QString elt2 = list.at(1);
+        QString elt3 = element.append(to_format(3)).append(".").append("png");
 
         success = image.save(elt3);
         if (!success) {
@@ -106,25 +295,11 @@ int main(int argc, char *argv[])
         }
     }
 
+    ///END FOR IMAGE
 
 
-//    for (const auto &item : list) {
-//        std::cout << item.toStdString() <<std::endl;
-//    }
 
-//    success = image.save(temp);
-
-//    if (!success) {
-//        success = image.save(oImagePath, "PNG");
-//    }
-//    if (success) {
-//        std::cout << "Saved rendered image to \"" << temp.toStdString() << "\"" << std::endl;
-//    } else {
-//        std::cerr << "Error: failed to save image to \"" << temp.toStdString() << "\"" << std::endl;
-//    }
-
-
-//DO NOT CHANGE
+    //DO NOT CHANGE; HANDLES PROGRAM EXIT
     a.exit();
     return 0;
 }

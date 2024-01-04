@@ -14,10 +14,10 @@ class RayTraceScene;
 class RayTracer
 {
 public:
-    float focalLength = 40.f;
+//    float focalLength = 40.f;
     //float apperture = 0.09f;
-    float planeZ = 1.7f;
-    bool dofEnable = true;
+//    float planeZ = 1.7f;
+    bool dofEnable = false;
     int sample = 6;
     //PUT THIS IN CONFIG TO GET ANIMATIONS
 
@@ -32,7 +32,9 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 0.0001f;
+        float apperture = 0.2f;
+        float focalLength = 0.f;
+        float planeZ = 1.f;
         bool onlyRenderNormals   = false;
     };
 

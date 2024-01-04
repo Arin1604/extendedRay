@@ -120,7 +120,7 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
             }
             doPrint = false;
 
-            //500/380
+
         }
     }
 
@@ -147,7 +147,7 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
     float greenAcc = 0.f;
     float blueAcc = 0.f;
 
-    glm::vec4 focalPoint(glm::vec3(primaryRay.dir) * focalLength, 1.f);
+    glm::vec4 focalPoint(glm::vec3(primaryRay.dir) * m_config.focalLength, 1.f);
 
     for(int i = 0; i < sample; i++){
 
@@ -209,9 +209,9 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
             float k = 1.f;
             float x = ((i + 0.5)/(float)scene.width()) - 0.5;
             float y = (((float)scene.height() - 1 - j + 0.5)/(float)scene.height()) - 0.5;
-            float z = -planeZ;
+            float z = -m_config.planeZ;
 
-            float V = 2*k* tan(scene.getCamera().getHeightAngle()/2.f);
+            float V = 2*k* tan(scene.getCamera().getHeightAngle()/2.f)* m_config.focalLength;
             float U = V * scene.getCamera().getAspectRatio();
 
             glm::vec4 uvk(U*x, V*y, z, 1.f);

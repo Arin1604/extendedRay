@@ -13,9 +13,6 @@ RayTraceScene::RayTraceScene(int width, int height, const RenderData &metaData):
     Height = height;
     camData = metaData.cameraData;
 
-
-
-    // Optional TODO: implement this. Store whatever you feel is necessary.
 }
 
 const int& RayTraceScene::width() const {

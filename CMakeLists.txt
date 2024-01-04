@@ -41,13 +41,14 @@ add_executable(${PROJECT_NAME}
   src/utils/scenedata.h
   src/utils/scenefilereader.h
   src/utils/sceneparser.h
-  src/shapeInterface.h
-  src/Sphere.cpp
-  src/Cylinder.cpp
+
+  src/shapes/Sphere.cpp
+
   src/raytracer/intersection.cpp
   src/utils/textureStruc.h
   src/raytracer/illumination.cpp
   src/raytracer/texture.cpp
+  src/shapes/Sphere.h
 )
 
 # GLM: this creates its library and allows you to `#include "glm/..."`
