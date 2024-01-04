@@ -17,7 +17,7 @@ public:
 //    float focalLength = 40.f;
     //float apperture = 0.09f;
 //    float planeZ = 1.7f;
-    bool dofEnable = false;
+    bool dofEnable = true;
     int sample = 6;
     //PUT THIS IN CONFIG TO GET ANIMATIONS
 
@@ -32,8 +32,8 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 0.2f;
-        float focalLength = 0.f;
+        float apperture = 0.16f;
+        float focalLength = 13.f;
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;
     };

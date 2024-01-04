@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 
-using namespace std; //is this okay??
+using namespace std;
 
 RayTracer::RayTracer(Config config) :
     m_config(config)
@@ -185,7 +185,7 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
     map<string, RayTracer::textureInfo> textureMap;
     if(m_config.enableTextureMap){
-        // map<string, RayTracer::textureInfo> textureMap;
+
 
         for(int i = 0; i < scene.MetaData.shapes.size(); i++){
             if(scene.MetaData.shapes[i].primitive.material.textureMap.isUsed){
@@ -211,7 +211,7 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
             float y = (((float)scene.height() - 1 - j + 0.5)/(float)scene.height()) - 0.5;
             float z = -m_config.planeZ;
 
-            float V = 2*k* tan(scene.getCamera().getHeightAngle()/2.f)* m_config.focalLength;
+            float V = 2*k* tan(scene.getCamera().getHeightAngle()/2.f) /**(1.f/m_config.focalLength)*/;
             float U = V * scene.getCamera().getAspectRatio();
 
             glm::vec4 uvk(U*x, V*y, z, 1.f);
@@ -223,24 +223,13 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
 
 
-
-//            if ( j == 400 && i == 550) {
-//                doPrint = true;
-//            }
-
             RayTraceScene scene1 = scene;
 
 
             imageData[j * scene.width() + i] = lensMaker(worldRay, doPrint, scene1, 0, textureMap);/*RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};*/
 
-            //            RGBA{static_cast<uint8_t>(imageAcc.r /6.f), static_cast<uint8_t>(imageAcc.g/6.f), static_cast<uint8_t>(imageAcc.b/6.f), static_cast<uint8_t>(imageAcc.a/6.f)};
-            //            doPrint = false;
 
         }
-
-
-
-
     }
 
 

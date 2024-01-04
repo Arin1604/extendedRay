@@ -70,12 +70,15 @@ int main(int argc, char *argv[])
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
 
 
-    bool isVideo = false;
+    bool isVideo = true;
+    bool focalVariation = true;
+    bool appertureVar = false;
+    bool planeZVar = false;
 
     ///FOR VIDEO
     ///
 
-    if(isVideo){
+    if(isVideo && focalVariation){
 
         for(int i = 0; i <240; i++){
 
@@ -114,7 +117,7 @@ int main(int argc, char *argv[])
     ///FOR VIDEO
     ///
 
-    if(isVideo){
+    if(isVideo && planeZVar){
 
         for(int i = 0; i <240; i++){
 
@@ -153,7 +156,7 @@ int main(int argc, char *argv[])
     ///FOR VIDEO
     ///
 
-    if(isVideo){
+    if(isVideo && appertureVar){
 
         for(int i = 0; i <240; i++){
 
@@ -174,82 +177,6 @@ int main(int argc, char *argv[])
             QString element = list.at(0);
             QString elt2 = list.at(1);
             QString elt3 = element.append("appertureMove").append(to_format(i)).append(".").append("png");
-
-            success = image.save(elt3);
-            if (!success) {
-                success = image.save(elt3, "PNG");
-            }
-            if (success) {
-                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
-            } else {
-                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
-            }
-        }
-    }
-    ///END FOR VIDEO
-
-    ///FOR VIDEO
-    ///
-
-    if(isVideo){
-
-        for(int i = 0; i <240; i++){
-
-            rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
-            rtConfig.planeZ =    rtConfig.planeZ - 0.1f;
-            RayTracer raytracer{ rtConfig };
-
-            RayTraceScene rtScene{ width, height, metaData };
-
-            // Note that we're passing `data` as a pointer (to its first element)
-            // Recall from Lab 1 that you can access its elements like this: `data[i]`
-            raytracer.render(data, rtScene);
-
-            QStringList list =  oImagePath.split(u'.');
-
-
-
-
-            QString element = list.at(0);
-            QString elt2 = list.at(1);
-            QString elt3 = element.append("minusZFocalTogether").append(to_format(i)).append(".").append("png");
-
-            success = image.save(elt3);
-            if (!success) {
-                success = image.save(elt3, "PNG");
-            }
-            if (success) {
-                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
-            } else {
-                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
-            }
-        }
-    }
-    ///END FOR VIDEO
-    ///
-
-    if(isVideo){
-
-        for(int i = 0; i <240; i++){
-
-            rtConfig.focalLength =    rtConfig.focalLength - 0.1f;
-            rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
-            RayTracer raytracer{ rtConfig };
-
-            RayTraceScene rtScene{ width, height, metaData };
-
-            // Note that we're passing `data` as a pointer (to its first element)
-            // Recall from Lab 1 that you can access its elements like this: `data[i]`
-            raytracer.render(data, rtScene);
-
-            QStringList list =  oImagePath.split(u'.');
-
-
-
-
-            QString element = list.at(0);
-            QString elt2 = list.at(1);
-            QString elt3 = element.append("zFocalTogether").append(to_format(i)).append(".").append("png");
 
             success = image.save(elt3);
             if (!success) {
