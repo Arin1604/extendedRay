@@ -6,17 +6,29 @@
 #include "raytracer.h"
 #include<iostream>
 
+
+/*!
+    @param:
+    *RayTracer::surfaceStruct closestObject: the surface information for the closest object to the camera
+
+    @return:
+    *RGBA: the correct pixel from the texture corresponding to the appropriate uv coordinate of the point of intersection
+
+     @brief:
+    * Uses the shapes UV mapping to determine correct output
+    * Finds the appropriate pixel from the texture image for the point of intersection on the shape
+
+*/
 RGBA RayTraceScene::applyTexture(RayTracer::surfaceStruct closestObject, std::map<std::string, RayTracer::textureInfo>& textureMap){
 
     float u = closestObject.u;
     float v = closestObject.v;
-    //std::cout << u << "   " << v  << std::endl;
 
     float m = closestObject.shape.primitive.material.textureMap.repeatU;
     float n = closestObject.shape.primitive.material.textureMap.repeatV;
-    //std::cout << "two" << std::endl;
+
     RayTracer::textureInfo textInf = textureMap[closestObject.shape.primitive.material.textureMap.filename];
-    //std::cout << "three" << std::endl;
+
     int w = textInf.width;
     int h = textInf.height;
 

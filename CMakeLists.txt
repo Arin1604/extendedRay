@@ -49,6 +49,12 @@ add_executable(${PROJECT_NAME}
   src/raytracer/illumination.cpp
   src/raytracer/texture.cpp
   src/shapes/Sphere.h
+  src/shapes/Cylinder.cpp
+  src/shapes/Cylinder.h
+  src/shapes/Cone.cpp
+  src/shapes/Cone.h
+  src/shapes/Cube.cpp
+  src/shapes/Cube.h
 )
 
 # GLM: this creates its library and allows you to `#include "glm/..."`

@@ -17,7 +17,10 @@
 #define UNSUPPORTED_ELEMENT(e) std::cout << ERROR_AT(e) << "unsupported element <" \
                                          << e.tagName().toStdString() << ">" << std::endl;
 
-// READS JSON FILES AND POPULATES MEMBER DATA STRUCTURES
+///
+///// READS JSON FILES AND POPULATES MEMBER DATA STRUCTURES
+///
+
 ScenefileReader::ScenefileReader(const std::string &name) {
     file_name = name;
 
@@ -144,9 +147,17 @@ bool ScenefileReader::readJSON() {
     return true;
 }
 
-/**
- * Parse a globalData field and fill in m_globalData.
- */
+/*!
+    @param:
+    *String filepath: the filepath for the JSON file that has the scene's data
+    *RenderData renderData: the rendering data for the scene, passed in as reference for optimization
+
+    @return:
+    * bool indicating wether parsing was succesful
+
+
+    * Parse a globalData field and fill in m_globalData.
+*/
 bool ScenefileReader::parseGlobalData(const QJsonObject &globalData) {
     QStringList requiredFields = {"ambientCoeff", "diffuseCoeff", "specularCoeff"};
     QStringList optionalFields = {"transparentCoeff"};
@@ -200,7 +211,7 @@ bool ScenefileReader::parseGlobalData(const QJsonObject &globalData) {
 }
 
 /**
- * Parse a Light and add a new CS123SceneLightData to m_lights.
+ * Parse a Light and add a new SceneLightData to m_lights.
  */
 bool ScenefileReader::parseLightData(const QJsonObject &lightData, SceneNode *node) {
     QStringList requiredFields = {"type", "color"};
@@ -570,7 +581,7 @@ bool ScenefileReader::parseTemplateGroupData(const QJsonObject &templateGroup) {
 }
 
 /**
- * Parse a group object and create a new CS123SceneNode in m_nodes.
+ * Parse a group object and create a new SceneNode in m_nodes.
  * NAME OF NODE CANNOT REFERENCE TEMPLATE NODE
  */
 bool ScenefileReader::parseGroupData(const QJsonObject &object, SceneNode *node) {

@@ -10,12 +10,30 @@
 #include <sstream>
 #include <iomanip>
 
+
+/*!
+    @param: int number
+
+    @return: string which represents int in correct format
+
+    @brief:
+    *Function converts an integer into %d format for FFmpeg
+*/
 std::string to_format(const int number) {
     std::stringstream ss;
     ss << std::setw(4) << std::setfill('0') << number;
     return ss.str();
 }
 
+
+/*!
+    **Main function**
+
+    @brief:
+    *Sets up the configuration of the raytracer
+    *Calls raytracer to render a scene and saves the image
+    *Is capable of saving multiple images that can be animated using FFmpeg
+*/
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -45,7 +63,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Raytracing-relevant code starts here
+    // Raytracing-relevant code
 
     int width = settings.value("Canvas/width").toInt();
     int height = settings.value("Canvas/height").toInt();
@@ -70,14 +88,16 @@ int main(int argc, char *argv[])
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
 
 
-    bool isVideo = true;
+    //Animation params
+    bool isVideo = false;
     bool focalVariation = true;
     bool appertureVar = false;
     bool planeZVar = false;
 
-    ///FOR VIDEO
-    ///
+    //TODO: Refactor code below into helper
 
+    ///FOR ANIMATION WITH CHANGING FOCAL LENGTH
+    ///
     if(isVideo && focalVariation){
 
         for(int i = 0; i <240; i++){
@@ -88,16 +108,11 @@ int main(int argc, char *argv[])
             RayTraceScene rtScene{ width, height, metaData };
 
             // Note that we're passing `data` as a pointer (to its first element)
-            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+
             raytracer.render(data, rtScene);
 
             QStringList list =  oImagePath.split(u'.');
-
-
-
-
             QString element = list.at(0);
-            QString elt2 = list.at(1);
             QString elt3 = element.append("focalmove").append(to_format(i)).append(".").append("png");
 
             success = image.save(elt3);
@@ -111,10 +126,10 @@ int main(int argc, char *argv[])
             }
         }
     }
-    ///END FOR VIDEO
+    ///
     ///
 
-    ///FOR VIDEO
+    ///FOR ANIMATION WITH CHANGING VIEWING PLANE
     ///
 
     if(isVideo && planeZVar){
@@ -127,14 +142,10 @@ int main(int argc, char *argv[])
             RayTraceScene rtScene{ width, height, metaData };
 
             // Note that we're passing `data` as a pointer (to its first element)
-            // Recall from Lab 1 that you can access its elements like this: `data[i]`
+
             raytracer.render(data, rtScene);
 
             QStringList list =  oImagePath.split(u'.');
-
-
-
-
             QString element = list.at(0);
             QString elt2 = list.at(1);
             QString elt3 = element.append("zmov").append(to_format(i)).append(".").append("png");
@@ -150,10 +161,11 @@ int main(int argc, char *argv[])
             }
         }
     }
-    ///END FOR VIDEO
+    ///
+    ///
 
 
-    ///FOR VIDEO
+    ///FOR ANIMATION WITH CHANGING APPERTURE
     ///
 
     if(isVideo && appertureVar){
@@ -166,14 +178,9 @@ int main(int argc, char *argv[])
             RayTraceScene rtScene{ width, height, metaData };
 
             // Note that we're passing `data` as a pointer (to its first element)
-            // Recall from Lab 1 that you can access its elements like this: `data[i]`
             raytracer.render(data, rtScene);
 
             QStringList list =  oImagePath.split(u'.');
-
-
-
-
             QString element = list.at(0);
             QString elt2 = list.at(1);
             QString elt3 = element.append("appertureMove").append(to_format(i)).append(".").append("png");
@@ -189,24 +196,20 @@ int main(int argc, char *argv[])
             }
         }
     }
-    ///END FOR VIDEO
+    ///
+    ///
 
 
-    ///FOR IMAGE
+    ///FOR IMAGE GENERATION
     else{
         RayTracer raytracer{ rtConfig };
 
         RayTraceScene rtScene{ width, height, metaData };
 
         // Note that we're passing `data` as a pointer (to its first element)
-        // Recall from Lab 1 that you can access its elements like this: `data[i]`
         raytracer.render(data, rtScene);
 
         QStringList list =  oImagePath.split(u'.');
-
-
-
-
         QString element = list.at(0);
         QString elt2 = list.at(1);
         QString elt3 = element.append(to_format(3)).append(".").append("png");
@@ -222,7 +225,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    ///END FOR IMAGE
+    ///
+    ///
 
 
 

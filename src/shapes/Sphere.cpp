@@ -5,7 +5,18 @@
 #include <cmath>
 #include "Sphere.h"
 
+/*!
+    @param:
+    *float a,b,c: representing the coefficients of x^2, x and the constant term c of a quadratic equation
 
+    @return:
+    * float t value
+
+    @brief:
+    * Helper for returning the closest real intersection point
+    * If no real intersection, returns -1
+
+*/
 float sphere::quadraticHelper(float a, float b, float c){
     float t = -1;
     float det = pow(b, 2) - 4 * a * c;
@@ -36,6 +47,19 @@ float sphere::quadraticHelper(float a, float b, float c){
 
 }
 
+
+/*!
+    @param:
+    *RayTracer::Ray ray:- represents the Ray struct for the insident light rau
+
+    @return:
+    * RayTracer::intersectInfo:- returns the intersect information for the shape and light ray
+
+    @brief:
+    * Function for returning the closest real intersection point
+    * If no real intersection, returns -1
+
+*/
 RayTracer::intersectInfo sphere::getSphereIntersection(RayTracer::Ray ray){
     float t;
     glm::vec4 P = ray.pos;
@@ -53,8 +77,7 @@ RayTracer::intersectInfo sphere::getSphereIntersection(RayTracer::Ray ray){
     glm::vec4 norm1(2*pos[0], 2*pos[1], 2*pos[2], 1.0f);
     float z = P[2] + t*D[2];
     float x = P[0] + t * D[0];
-    // std::cout << pos[0] << " "<< pos[1] << " "<< ""  << pos[2] << std::endl;
-    //RayTracer::intersectInfo intersectInfo = {t, pos, norm1};
+
 
     float theta = atan2(z, x);
     float u;
@@ -67,7 +90,7 @@ RayTracer::intersectInfo sphere::getSphereIntersection(RayTracer::Ray ray){
 
     float phi = asinf(pos[1]/0.5f);
     float v = (phi/M_PI) + (1.0f/2.0f);
-    //std::cout << u << v << std::endl;
+
     RayTracer::intersectInfo intersectInfo = {t, pos, norm1, u, v};
 
     return intersectInfo ;

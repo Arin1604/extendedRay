@@ -4,6 +4,10 @@
 #include <iostream>
 #include <cmath>
 
+///
+/// \brief The sphere class represents the sphere as a mathematical object
+///        using implicit equations.
+///
 
 class sphere
 {

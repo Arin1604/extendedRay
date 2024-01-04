@@ -3,7 +3,6 @@
 #include "utils/sceneparser.h"
 #include "raytracer.h"
 #include<iostream>
-#include "glm/gtx/string_cast.hpp"
 
 RayTraceScene::RayTraceScene(int width, int height, const RenderData &metaData):
     cam(metaData.cameraData, width, height)

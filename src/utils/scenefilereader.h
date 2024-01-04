@@ -8,7 +8,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-// This class parses the scene graph specified by the CS123 Xml file format.
+///
+/// READS JSON FILES AND POPULATES MEMBER DATA STRUCTURES
+///
+// This class parses the scene graph specified by the Xml file format.
 class ScenefileReader {
 public:
     // Create a ScenefileReader, passing it the scene file.
@@ -28,7 +31,7 @@ public:
 
 private:
     // The filename should be contained within this parser implementation.
-    // If you want to parse a new file, instantiate a different parser.
+
     bool parseGlobalData(const QJsonObject &globaldata);
     bool parseCameraData(const QJsonObject &cameradata);
     bool parseTemplateGroups(const QJsonValue &templateGroups);

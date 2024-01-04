@@ -17,7 +17,7 @@ public:
 //    float focalLength = 40.f;
     //float apperture = 0.09f;
 //    float planeZ = 1.7f;
-    bool dofEnable = true;
+    bool dofEnable = false;
     int sample = 6;
     //PUT THIS IN CONFIG TO GET ANIMATIONS
 
