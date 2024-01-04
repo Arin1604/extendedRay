@@ -6,6 +6,19 @@
 #include "glm/gtx/string_cast.hpp"
 
 
+/*!
+    @param:
+    *SceneLightData light: The light for which color is being determined
+    *glm::vec3 intersectPos: the intersect position
+    *bool doPrint: debugging boolen for printing specific pixel values
+
+    @return
+    bool: whether a shape is shadowed by another primitive
+
+    @brief:
+    * This function implements the shadow effect by generating a reverse "shadow ray" to check if the shape is occluded by another
+
+*/
 bool RayTraceScene::blocked(SceneLightData light, glm::vec3 intersectPos, bool doPrint){
     float t = -1.f;
     glm::vec4 dirShadowRay;
@@ -14,7 +27,7 @@ bool RayTraceScene::blocked(SceneLightData light, glm::vec3 intersectPos, bool d
     if(light.type == LightType::LIGHT_DIRECTIONAL){
         dirShadowRay = glm::normalize(-light.dir);
     }
-    else/*(light.type == LightType::LIGHT_POINT)*/{
+    else{
         dirShadowRay = glm::normalize(light.pos - glm::vec4(intersectPos, 1.f));
     }
 
@@ -69,7 +82,7 @@ bool RayTraceScene::blocked(SceneLightData light, glm::vec3 intersectPos, bool d
                 continue;//not blocked
             }
 
-        }//
+        }
     }
 
 
@@ -84,6 +97,27 @@ bool RayTraceScene::blocked(SceneLightData light, glm::vec3 intersectPos, bool d
 
 }
 
+/*!
+    @param:
+    *glm::vec3  position: the position of intersection
+    *glm::vec3  normal: the normal to the surface at the point of intersection
+    *glm::vec3  directionToCamera: the direction from point of intersection to camera
+    *SceneMaterial  material: the shape's material
+    *std::vector<SceneLightData> lights: the array of lights in the scene
+    *SceneGlobalData globalData: Scene's global data
+    *bool doPrint: debugging boolean for per pixel debugging
+    *RayTraceScene &scene: scene being rendered
+    * RGBA texture: texture's pixel
+
+    @return
+    glm::vec4: the final output color after the Phong Lighting Computation
+
+    @brief:
+    * This function implements the famous Phong Lighting Equation
+    * It computes the final color output by factoring the scene, the lights, and the shape's properties
+    * Supports spot, directional and point light sources
+    * In essence, three separate lighting terms are computed that represent the ambient, diffuse and specular lighting that a shape receives
+*/
 glm::vec4 RayTraceScene::phong(glm::vec3  position,
                 glm::vec3  normal,
                 glm::vec3  directionToCamera,
@@ -104,7 +138,7 @@ glm::vec4 RayTraceScene::phong(glm::vec3  position,
 
     glm::vec4 textureColors(r,g,b,1.0f);
 
-    // Task 3: add the ambient term
+    // add the ambient term
     illumination[0] = globalData.ka * material.cAmbient[0];
     illumination[1] = globalData.ka * material.cAmbient[1];
     illumination[2] = globalData.ka * material.cAmbient[2];

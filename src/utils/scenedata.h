@@ -53,7 +53,7 @@ struct SceneLight {
     float penumbra; // Only applicable to spot lights, in RADIANS
     float angle;    // Only applicable to spot lights, in RADIANS
 
-    float width, height; // No longer supported (area lights)
+    float width, height;
 };
 
 // Struct which contains data for a single light with CTM applied
@@ -119,8 +119,8 @@ struct SceneMaterial {
     SceneFileMap textureMap; // Used for texture mapping
     float blend;             // Used for texture mapping
 
-    SceneColor cEmissive; // Not used
-    SceneFileMap bumpMap; // Not used
+    SceneColor cEmissive;
+    SceneFileMap bumpMap;
 
     void clear()
     {
@@ -160,9 +160,9 @@ struct SceneTransformation {
     glm::mat4 matrix;    // Only applicable when transforming by a custom matrix. This is that custom matrix.
 };
 
-// Struct which represents a node in the scene graph/tree, to be parsed by the student's `SceneParser`.
+// Struct which represents a node in the scene graph/tree
 struct SceneNode {
-    std::vector<SceneTransformation*> transformations; // Note the order of transformations described in lab 5
+    std::vector<SceneTransformation*> transformations;
     std::vector<ScenePrimitive*> primitives;
     std::vector<SceneLight*> lights;
     std::vector<SceneNode*> children;

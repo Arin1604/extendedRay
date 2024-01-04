@@ -3,6 +3,16 @@
 #include "utils/scenedata.h"
 
 
+/*!
+    @param:
+    *glm::vec3 up, pos, and look: three vectors that determine the camera's orientation
+
+    @return
+    glm::mat4: the view matrix that determines camera space conversions and the view volume for our scene
+
+    @brief:
+    * This function computes the view matrix for our camera that determines the camera space conversions and the viewing volume for our scene
+*/
 glm::mat4 ViewMatrix(glm::vec3 pos, glm::vec3 look, glm::vec3 up) {
     glm::vec3 posLocal = pos;
     glm::vec3 lookLocal = look;
@@ -22,15 +32,24 @@ glm::mat4 ViewMatrix(glm::vec3 pos, glm::vec3 look, glm::vec3 up) {
     glm::mat4 rotate(u[0], v[0], w[0], 0, u[1], v[1], w[1], 0, u[2], v[2], w[2], 0, 0, 0, 0, 1);
     return rotate * translate;
 
-    // Optional TODO: implement the getter or make your own design
     throw std::runtime_error("not implemented");
 }
 
+//Computes the inverse of the view matrix for converting back to world space
 glm::mat4 inverseMat(glm::mat4 mat){
     return glm::inverse(mat);
 
 }
 
+/*!
+ ///CONSTRUCTOR FOR CAMERA CLASS
+    @param:
+    *SceneCameraData cameraData: The camera data obtained after parsing the scene, passed in as reference to optimize efficiency
+    *int width, height: the dimensions of the viewplane
+
+    @brief:
+    * The virtual representation of a camera in our scene
+*/
 Camera::Camera(const SceneCameraData &cameraData, int width, int height) {
     Width = width;
     Height = height;
@@ -47,7 +66,7 @@ Camera::Camera(const SceneCameraData &cameraData, int width, int height) {
 
 
 
-
+//GETTERS
 glm::mat4 Camera::getViewMatrix() const {
     return viewMat;
 }
@@ -61,19 +80,16 @@ float Camera::getAspectRatio() const {
     int d = Height;
     return (float) n/ (float) d;
 
-    // Optional TODO: implement the getter or make your own design
     throw std::runtime_error("not implemented");
 }
 
 float Camera::getHeightAngle() const {
-    // Optional TODO: implement the getter or make your own design
-    return heightAngle;
+     return heightAngle;
     throw std::runtime_error("not implemented");
 }
 
 float Camera::getFocalLength() const {
     return focalLength;
-    // Optional TODO: implement the getter or make your own design
     throw std::runtime_error("not implemented");
 }
 

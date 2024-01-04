@@ -4,6 +4,23 @@
 #include "raytracer.h"
 #include<iostream>
 
+
+/*!
+ * //CONSTRUCTOR FOR RayTraceScene
+    @param:
+    *Camera cam: the camera object for the scene, populated with data from metaData
+    *int width,height: dimensions of viewplane
+    *Renderdata metaData: the scene's data obtained after parsing, passed in as reference for optimization
+
+
+    @brief:
+    * Class responsible for handling the bulk of the raytracing logic
+    * Handles ray intersection with all the shapes in the scene
+    * Computes the pixel color using the phong illumination model
+    * Handles reflection using recursive raytracing
+
+
+*/
 RayTraceScene::RayTraceScene(int width, int height, const RenderData &metaData):
     cam(metaData.cameraData, width, height)
 {
@@ -13,6 +30,7 @@ RayTraceScene::RayTraceScene(int width, int height, const RenderData &metaData):
     camData = metaData.cameraData;
 
 }
+///GETTERS
 
 const int& RayTraceScene::width() const {
     return Width;
@@ -36,7 +54,24 @@ const Camera& RayTraceScene::getCamera() const {
 
     throw std::runtime_error("not implemented");
 }
+///
+///
 
+
+/*!
+    @param:
+    *RayTracer::Ray  worldRay: the ray in world space
+    *glm::mat4 p: matrix to convert the ray from world space to a specific space (camera/object space)
+
+    @return
+    RayTracer::Ray: in the new transform space
+
+    @brief:
+    * In this project, the light ray is converted between different transform spaces (mainly object <-> world <-> camera)
+    * This function carries out the matrix transformations
+
+
+*/
 RayTracer::Ray RayTraceScene::convertRaySpace(RayTracer::Ray  worldRay, glm::mat4 p) const{
     glm::vec4 newDir = p * worldRay.dir;
     glm::vec4 newPos = p * worldRay.pos;
@@ -46,6 +81,19 @@ RayTracer::Ray RayTraceScene::convertRaySpace(RayTracer::Ray  worldRay, glm::mat
 
 }
 
+
+/*!
+    @param:
+    glm::vec4 &illumination: receives the RGBA color as a vec4 of floats [0,1]
+
+    @return
+    RGBA: the RGBA values
+
+    @brief:
+    * Converts color values from floats to the RGBA values
+
+
+*/
 RGBA toRGBA(const glm::vec4 &illumination) {
 
     std::uint8_t r = 255 * fmin(fmax(illumination[0], 0),1);
@@ -56,18 +104,38 @@ RGBA toRGBA(const glm::vec4 &illumination) {
 }
 
 
+/*!
+    @param:
+    *RayTracer::Ray  worldRay: the ray in world space
+    *bool doPrint: boolean for per pixel debugging, can be set to true for specific pixel locations for testing
+    *RayTraceScene scene: the scene being rendered passed in as reference
+    *int count: sets the maximu recursive depth for recursion
+    *map textureMap: a map for the different shapes and their textures, pre-computed to increase efficiency
+
+    @return
+    glm::vec4: the final color of a pixel obtained after raytracing as floats
+
+    @brief:
+    * This is the main function that handles the ray-tracing
+    * It loops through all the shapes in the scene and checks for intersection with the world ray that is passed in
+    * Computes color determination using texture mapping and phong lighting
+    * Handles reflection mechanics for reflective surfaces using recursion
+
+
+*/
+//NOTE ON "CLOSEST OBJECT": it refers to the object that is closest to the camera, and is hence visible
 
 glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap) const {
     std::vector<RayTracer::surfaceStruct> t_vals;
     int c = count + 1;
 
 
+    //MAIN SHAPE LOOP
     for(int i = 0; i < MetaData.shapes.size(); i++){
         glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
         RayTracer::Ray objectRay = convertRaySpace(worldRay, p);
 
         RayTracer::intersectInfo intInf = RayTraceScene::getIntersection(MetaData.shapes[i], objectRay);
-        //std::cout << intInf.normal[0] << "," << intInf.normal[1] << "," << intInf.normal[2] << std::endl;
         RayTracer::surfaceStruct objectProps = {intInf.t, intInf.position, intInf.normal, MetaData.shapes[i], intInf.u, intInf.v};
 
 
@@ -76,9 +144,9 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
     }
 
     RayTracer::surfaceStruct closestObject = RayTraceScene::getminPos(t_vals);
-    // std::cout << closestObject.u << closestObject.v  << std::endl;
 
 
+    //Texture Mapping for Closest Object
     RGBA texture{0,0,0,1};
     if(closestObject.t > 0){
         if(closestObject.shape.primitive.material.textureMap.isUsed){
@@ -92,6 +160,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         glm::vec4 directIllumination = RayTraceScene::phong(pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, texture);
         glm::vec4 indirectIllum(0.f);
 
+        //Recursive raytracing if the shape's surface is reflective
         if(c < 5 && closestObject.shape.primitive.material.cReflective != glm::vec4(0.f)){
             glm::vec4 posReflected(pos, 1.f);
 
@@ -109,6 +178,9 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
 
 
+        //Combination of the color obtained from:
+        //directly incident ray
+        // indirect rays from reflections
         return directIllumination + indirectIllum;//phong(closestObject.shape.ctm * closestObject.pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, count);
     }
 
@@ -120,6 +192,10 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
 }
 
+
+///
+/// Converts results from traceRay into an RGBA struct and returns it to the raytracer
+///
 RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap) const{
     return toRGBA(traceRay(worldRay, doPrint, scene, count, textureMap));
 

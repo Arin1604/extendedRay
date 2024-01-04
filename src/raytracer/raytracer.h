@@ -5,21 +5,18 @@
 #include "utils/rgba.h"
 #include "utils/sceneparser.h"
 
-// A forward declaration for the RaytraceScene class
+/// A forward declaration for the RaytraceScene class
 
 class RayTraceScene;
 
-// A class representing a ray-tracer
+/// A class representing a ray-tracer
 
 class RayTracer
 {
 public:
-//    float focalLength = 40.f;
-    //float apperture = 0.09f;
-//    float planeZ = 1.7f;
-    bool dofEnable = false;
+
+    bool dofEnable = true;
     int sample = 6;
-    //PUT THIS IN CONFIG TO GET ANIMATIONS
 
     struct Config {
         bool enableShadow        = false;
@@ -38,12 +35,18 @@ public:
         bool onlyRenderNormals   = false;
     };
 
+    ///
+    /// \brief The Ray struct represents light as a mathematical object
+    ///
     struct Ray {
         glm::vec4 pos;
         glm::vec4 dir;
 
     };
 
+    ///
+    /// \brief The intersectInfo struct wraps important information regarding a shape-light intersection
+    ///
     struct intersectInfo {
         float t;
         glm::vec4 normal;
@@ -53,12 +56,18 @@ public:
 
     };
 
+    ///
+    /// \brief The textureInfo struct wraps information regarding a shape's texture
+    ///
     struct textureInfo {
         int width;
         int height;
         RGBA* texture;
     };
 
+    ///
+    /// \brief The surfaceStruct captures additional information regarding a shape-light intersection for lighting calculations
+    ///
     struct surfaceStruct {
         float t;
         glm::vec4 normal;

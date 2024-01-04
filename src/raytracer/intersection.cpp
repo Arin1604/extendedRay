@@ -8,6 +8,24 @@
 #include <iostream>
 #include <cmath>
 
+///
+/// Intersection File TODOs:
+/// *Implement Bounding Volumes to increase efficiency
+/// * Look into implementing Octree
+///
+
+
+/*!
+    @param:
+    t_array: the array of various t values which correspond to the shape's intersection with a light ray
+
+    @return
+    float: returns the surface struc which represents the closest object
+
+    @brief:
+    * This function is useful in determining the shape that is closest to the camera
+
+*/
 RayTracer::surfaceStruct RayTraceScene::getminPos(std::vector<RayTracer::surfaceStruct> &t_StrucArray){
     RayTracer::surfaceStruct t_min_pos_Struc = t_StrucArray[0];
     for(RayTracer::surfaceStruct t : t_StrucArray){
@@ -20,6 +38,20 @@ RayTracer::surfaceStruct RayTraceScene::getminPos(std::vector<RayTracer::surface
 }
 
 
+/*!
+    @param:
+    *RenderShapeData shape: the shape through which the ray's intersection will be checked
+    *RayTracer::Ray: the ray that is passed in from the raytracer
+
+    @return
+    float: returns the intersection information for color and lighting calculation
+
+    @brief:
+    * The shapes are represented as mathematical objects using implicit equations
+    * This function checks the type of shape and calls the appropriate intersection methods
+    * The intersection information returned is crucial in determining the color output
+
+*/
 RayTracer::intersectInfo RayTraceScene::getIntersection(RenderShapeData shape, RayTracer::Ray ray){
     RayTracer::intersectInfo intersectInfo;
     if(shape.primitive.type == PrimitiveType::PRIMITIVE_SPHERE){

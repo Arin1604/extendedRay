@@ -7,10 +7,26 @@
 
 using namespace std;
 
+///
+/// \brief RayTracer::RayTracer sets up the configuration for the RayTracer
+/// \param config: struct contains the configuration parameters for the raytracer
+///
 RayTracer::RayTracer(Config config) :
     m_config(config)
 {}
 
+/*!
+    @param:
+    t_array: the array of various t values which correspond to the shape's intersection with a light ray
+
+    @return
+    float: returns the minimum positive value
+
+    @brief:
+    * computes the minimum positive value to determine closest(minimum) valid(positive) intersection
+
+
+*/
 float getminPos(std::vector<float> t_array){
     float t_min_pos = t_array[0];
     for(float t: t_array){
@@ -22,23 +38,24 @@ float getminPos(std::vector<float> t_array){
     return t_min_pos;
 }
 
+//TESTS getMinPos
 void testMinPos(){
     auto y = std::vector{ -1.0f, 2.5f, -3.0f, 6.0f, 1.0f, -8.0f};
     auto z = std::vector{ 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, 2.0f};
     auto x = std::vector{-2.5f, 3.0f, -6.0f, -8.0f};
-
-    //    std::cout << y.size() <<std::endl;
-    //    std::cout << z.size() <<std::endl;
-    //    std::cout << x.size() <<std::endl;
-
-    //    y.erase(y.begin() + 3);
-
-
-
-
-
 }
 
+/*!
+    @param:
+    *QString file: the filepath for the texture
+
+    @return
+     RayTracer::textureInfo: returns the information struct for the texture
+
+    @brief:
+    * loads the texture and stores its information in a struct for raytracing later
+
+*/
 RayTracer::textureInfo loadTextureFromFile(const QString &file) {
     QImage myTexture;
 
@@ -63,6 +80,20 @@ RayTracer::textureInfo loadTextureFromFile(const QString &file) {
 
 
 
+/*!
+    @param:
+    RGBA imageData: Pointer to the first pixel of the viewing plane through which the ray is traced
+    RayTraceScene: The scene which is being rendered
+
+
+    @brief:
+    * The main rendering function that carries out the ray generation logic
+    * Generates and traces (delegated to raytracescene) light rays through the pixels of the view plane
+    * Updates the view plane's color with the output received from RayTraceScene
+    * Populates the texture map for each shape in the scene to boost efficiency
+    * Added support for Depth of Field and More realistic camera mechanics
+
+*/
 void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
 
     if(!dofEnable){
@@ -114,7 +145,6 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
                 RayTraceScene scene1 = scene;
                 imageData[j * scene.width() + i] = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap);
                 doPrint = false;
-                // std::cout << imageData[600 * scene.width() + 100].r << " " << imageData[600 * scene.width() + 100].g << "" << imageData[600 * scene.width() + 100].b << std::endl;
 
 
             }
@@ -129,17 +159,21 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
     }
 }
 
-glm::vec4 RayTracer::lensOffset(){
+/*!
+    @param:
+    *RayTracer::Ray primaryRay: The main ray around which other rays will be generated
+    *bool doPrint: debugging parameter
+    *RayTraceSceen:: scene being rendered
+    *int count: recursive depth for reflections in ray tracer
+    *Map textureMap: the map between the shapes and their textures in the scene
 
+    @return
+    RGBA: the color result obtained from averaging the different rays generated from the lens surface
 
+    @brief:
+    * Simulates a thin lens by creating a lens surface around the primary ray and generating secondary rays
 
-    return glm::vec4(0);
-
-}
-
-std::uint8_t floatToUint8(float x) {
-    return round(x * 255.f);
-}
+*/
 
 RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap){
 
@@ -180,6 +214,21 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
 }
 
+
+
+/*!
+    @param:
+    RGBA imageData: Pointer to the first pixel of the viewing plane through which the ray is traced
+    RayTraceScene: The scene which is being rendered
+
+
+    @brief:
+    * Performs similar functions to render
+    * Implements depth of field effect using the lens maker
+    * instead of just tracing rays from a point (the camera position) I use randomly generated rays from a lens surface
+    * With the focalLength and aperture fields the dof effect is achieved
+
+*/
 void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
 
