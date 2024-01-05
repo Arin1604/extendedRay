@@ -48,7 +48,6 @@ bool RayTraceScene::blocked(SceneLightData light, glm::vec3 intersectPos, bool d
         float lightDist = glm::distance(glm::vec4(intersectPos, 1.0f), light.pos);
         float shadowIntersectDist = glm::distance(glm::vec4(intersectPos, 1.0f), intInf.position);
 
-        //THE COMMENTED OUT CODE MESSES UP SPOT_LIGHT_2 FOR SOME REASON??? HOW TO RESOLVE?
 
 
         //Checks if light is either pos/spot so that we ca check the edge case
