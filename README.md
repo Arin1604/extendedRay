@@ -1,10 +1,10 @@
 # Extended Ray-Tracer
-Improvements on the Ray-tracer I implemented in CSCI 1230. Specifically, focused on implementing lens mechanics to more realistically simulate camera features and producing animated outputs.
+Improvements on the Ray-Tracer I implemented in CSCI 1230. Specifically, focused on implementing lens mechanics to simulate camera features and produce animated outputs.
 
 ### Overview
-My project uses rendering techniques like recursive ray tracing, phong illumination model, camera simulation, etc. to create visually powerful renders of 3-D scenes.
+My project uses rendering techniques like recursive ray tracing, Phong illumination model, camera simulation, etc. to create visually powerful renders of 3-D scenes.
 
-It parses through JSON files that contain the scene description. The 3-D objects in the scene are defined mathematically using implicit equations. Light rays are generated and then traced through the scene to compute their interactions with the shapes using the ray-tracing algorithm. I handle the final color computation by implememnting the renowned Phong Illumination Model.
+It parses through JSON files that contain the scene description. The 3-D objects in the scene are defined mathematically using implicit equations. Light rays are generated and then traced through the scene to compute their interactions with the shapes using the ray-tracing algorithm. I handle the final color computation by implementing the renowned Phong Illumination Model.
 
 
 
@@ -13,21 +13,21 @@ It parses through JSON files that contain the scene description. The 3-D objects
 ### Repo Structure
 
 #### **1) SRC**
-SRC contains the main implementation of my project. It is comprised of a Camera Class, a Ray-Tracer Class (and its associated files), Shape classes, Utilities classes, and a main file. Detailed descriptions of their functions are present as in-line comments in their respective header and cpp files. Below, I provide I brief description of their roles:
+SRC contains the main implementation of my project. It is comprised of a Camera Class, a Ray-Tracer Class (and its associated files), Shape classes, Utilities classes, and a main file. Detailed descriptions of their functions are present as in-line comments in their respective header and cpp files. Below, I provide a brief description of their roles:
 
 ##### i) Camera
-My camera class represents the virtual camera in my project through which we see the 3-D scene. Its orientation is defined by 3 vectors: pos (its position), look (the direction in which it is looking), and up(the "up" direction for the camera). It defines the view matrix, and **defines the viewplane for our scene**. Collectively, these determine the view volume that is rendered in the final image.
+My camera class represents the virtual camera in my project through which we see the 3-D scene. Its orientation is defined by 3 vectors: pos (its position), look (the direction in which it is looking), and up(the "up" direction for the camera). It defines the view matrix, and **the view plane for our scene**. Collectively, these determine the view volume that is rendered in the final image.
 
 ##### ii) Ray-Tracer
-raytracer and raytracescene handle the vast majority of the ray-tracing algorithm. In essence, we define light rays as mathematical objects and generate them from the Camera (or the lens in special cases). These rays are directed towards individual pixels of the aforementioned view plane and are then traced into the 3-D scene. The color of the pixel is then determined by computing the ray's interactions with the objects in the scene. The Phong Illumination Model plays a crucial role here.
+Ray Tracer and Ray Trace Scene handle the vast majority of the ray-tracing algorithm. In essence, we define light rays as mathematical objects and generate them from the Camera (or the lens in special cases). These rays are directed towards individual pixels of the aforementioned view plane and are then traced into the 3-D scene. The color of the pixel is then determined by computing the ray's interactions with the objects in the scene. The Phong Illumination Model plays a crucial role here.
 ![image](https://github.com/Arin1604/extendedRay/assets/113402703/0c0b882c-95e6-4ab3-b901-eb34fa60a4e6)
 https://developer.nvidia.com/discover/ray-tracing
 
 ##### iii) Utils
-Scene File Reader and Scene Parser are resposnible for reading the JSON file that contains the scene information and then populating the various data structures using the scene's information. 
+Scene File Reader and Scene Parser are responsible for reading the JSON file that contains the scene information and then populating the various data structures using the scene's information. 
 
 ##### iv) Shapes
-The various shape classes contain the implicit equations used to define the various objects in the scene. Theese classes play a crucial role in the intersection logic to indicate when a light ray hits the surface of an object.
+The various shape classes contain the implicit equations used to define the various objects in the scene. These classes play a crucial role in the intersection logic to indicate when a light ray hits the surface of an object.
 
 ##### v) Main
 Contains the main method and sets up the configuration of the Ray-Tracer. It is here that I have implemented support for producing animated outputs by using FFmpeg to integrate individual frames into a mp4 file.
@@ -36,7 +36,7 @@ Contains the main method and sets up the configuration of the Ray-Tracer. It is 
 This folder contains the various JSON files that contain the description of the 3-D scenes. These files are the inputs to my program and are parsed and read by the scene parser and file reader respectively. However, these files are not directly passed into our program as arguments.
 
 #### 3) Template inis
-This folder contains the ini files that are passed into our program as command line arguments. These files specify the input (the JSON files in Scenefiles) and the output location (in outputs).
+This folder contains the ini files that are passed into our program as command-line arguments. These files specify the input (the JSON files in Scenefiles) and the output location (in outputs).
 
 #### 4) Outputs
 Both Student Outputs and Final Outputs store the outputs generated by my ray tracer. I have shared some of these outputs below.
@@ -45,7 +45,7 @@ Both Student Outputs and Final Outputs store the outputs generated by my ray tra
 
 ## Outputs
 
-#### Apperture of the camera changes over time
+#### Aperture of the camera changes over time
 https://github.com/Arin1604/extendedRay/assets/113402703/62801552-e0a8-411d-861b-7acdbe28dcba
 
 #### Reflections through recursive ray-tracing
@@ -56,7 +56,6 @@ https://github.com/Arin1604/extendedRay/assets/113402703/62801552-e0a8-411d-861b
 
 #### A scene with depth of field (the blue sphere is in focus)
 ![simpleFocalLengthfocalmove0033](https://github.com/Arin1604/extendedRay/assets/113402703/8b2b0fa4-f83e-4d02-9372-c78b0f0cd7a5)
-
 
 
 
