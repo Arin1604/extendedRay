@@ -98,11 +98,26 @@ int main(int argc, char *argv[])
 
     ///FOR ANIMATION WITH CHANGING FOCAL LENGTH
     ///
-    if(isVideo && focalVariation){
 
+    if (isVideo){
         for(int i = 0; i <240; i++){
+            std::string type;
 
-            rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
+            if(focalVariation){
+                rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
+                type = "focalChange";
+            }
+
+            else if(planeZVar){
+                rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
+                type = "zChange";
+            }
+
+            else if(appertureVar){
+                rtConfig.apperture =    rtConfig.apperture + 0.007f;
+                type = "apertureChange";
+            }
+
             RayTracer raytracer{ rtConfig };
 
             RayTraceScene rtScene{ width, height, metaData };
@@ -113,7 +128,7 @@ int main(int argc, char *argv[])
 
             QStringList list =  oImagePath.split(u'.');
             QString element = list.at(0);
-            QString elt3 = element.append("focalmove").append(to_format(i)).append(".").append("png");
+            QString elt3 = element.append(type).append(to_format(i)).append(".").append("png");
 
             success = image.save(elt3);
             if (!success) {
@@ -126,78 +141,8 @@ int main(int argc, char *argv[])
             }
         }
     }
-    ///
-    ///
-
-    ///FOR ANIMATION WITH CHANGING VIEWING PLANE
-    ///
-
-    if(isVideo && planeZVar){
-
-        for(int i = 0; i <240; i++){
-
-            rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
-            RayTracer raytracer{ rtConfig };
-
-            RayTraceScene rtScene{ width, height, metaData };
-
-            // Note that we're passing `data` as a pointer (to its first element)
-
-            raytracer.render(data, rtScene);
-
-            QStringList list =  oImagePath.split(u'.');
-            QString element = list.at(0);
-            QString elt2 = list.at(1);
-            QString elt3 = element.append("zmov").append(to_format(i)).append(".").append("png");
-
-            success = image.save(elt3);
-            if (!success) {
-                success = image.save(elt3, "PNG");
-            }
-            if (success) {
-                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
-            } else {
-                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
-            }
-        }
-    }
-    ///
-    ///
 
 
-    ///FOR ANIMATION WITH CHANGING APPERTURE
-    ///
-
-    if(isVideo && appertureVar){
-
-        for(int i = 0; i <240; i++){
-
-            rtConfig.apperture =    rtConfig.apperture + 0.007f;
-            RayTracer raytracer{ rtConfig };
-
-            RayTraceScene rtScene{ width, height, metaData };
-
-            // Note that we're passing `data` as a pointer (to its first element)
-            raytracer.render(data, rtScene);
-
-            QStringList list =  oImagePath.split(u'.');
-            QString element = list.at(0);
-            QString elt2 = list.at(1);
-            QString elt3 = element.append("appertureMove").append(to_format(i)).append(".").append("png");
-
-            success = image.save(elt3);
-            if (!success) {
-                success = image.save(elt3, "PNG");
-            }
-            if (success) {
-                std::cout << "Saved rendered image to \"" << elt3.toStdString() << "\"" << std::endl;
-            } else {
-                std::cerr << "Error: failed to save image to \"" << elt3.toStdString() << "\"" << std::endl;
-            }
-        }
-    }
-    ///
-    ///
 
 
     ///FOR IMAGE GENERATION

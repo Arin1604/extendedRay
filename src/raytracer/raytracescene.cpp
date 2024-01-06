@@ -180,8 +180,8 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
         //Combination of the color obtained from:
         //directly incident ray
-        // indirect rays from reflections
-        return directIllumination + indirectIllum;//phong(closestObject.shape.ctm * closestObject.pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, count);
+        //indirect rays from reflections
+        return directIllumination + indirectIllum;
     }
 
     else{
