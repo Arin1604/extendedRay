@@ -103,6 +103,10 @@ RGBA toRGBA(const glm::vec4 &illumination) {
     return RGBA{r, g, b};
 }
 
+glm::mat4 translator(float dx, float dy, float dz){
+    return glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dx, dy, dz, 1);
+}
+
 
 /*!
     @param:
@@ -132,7 +136,11 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
     //MAIN SHAPE LOOP
     for(int i = 0; i < MetaData.shapes.size(); i++){
-        glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
+        RenderShapeData r = MetaData.shapes[i];
+        glm::mat4 o = translator(0.f,0.f,0.2f) * r.ctm;
+        glm::mat4 p = glm::inverse(o);// Coord transformation
+
+        //glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
         RayTracer::Ray objectRay = convertRaySpace(worldRay, p);
 
         RayTracer::intersectInfo intInf = RayTraceScene::getIntersection(MetaData.shapes[i], objectRay);

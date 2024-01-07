@@ -159,6 +159,23 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
     }
 }
 
+
+float gaussianWeights(float radius, glm::vec4 newPos, glm::vec4 ogPos){
+    float weight;
+    float x = ogPos[0] - newPos[0];
+    float y = ogPos[1] - newPos[1];
+    float z = ogPos[2] - newPos[2];
+
+    float sigma = radius/ 3.f;
+    float a = sqrt(pow(x,2) + pow(y,2)) /*+ pow(z,2)*/;
+    float power = -a / (2 * pow(sigma, 2));
+    auto denom = sqrt(2 * M_PI * pow(sigma, 2));
+
+    weight = 1/pow(a,2)/*(1/denom) * exp(power)*/;
+    return weight;
+}
+
+
 /*!
     @param:
     *RayTracer::Ray primaryRay: The main ray around which other rays will be generated
@@ -188,21 +205,27 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
         float newX = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
         float newY = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
         float newZ = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+        float radius = 0.5f * m_config.apperture;
+
+
 
         glm::vec4 offsetPos(newX, newY, newZ, primaryRay.pos[3]);
 
         glm::vec3 newPosT = glm::vec3(primaryRay.pos) + m_config.apperture * glm::vec3(offsetPos);
         glm::vec4 newPos(newPosT, primaryRay.pos[3]);
-
         glm::vec4 newDir = glm::normalize(focalPoint - newPos);
+
+        float weight = 1.f;
+        //weight = gaussianWeights(radius, newPos, primaryRay.pos);
 
         Ray newRay{newPos, newDir};
 
-        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap);
 
-        redAcc = update.r + redAcc;
-        greenAcc = update.g + greenAcc ;
-        blueAcc = update.b + blueAcc;
+        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap);
+       // std::cout<< weight << std::endl;
+        redAcc =   (weight * update.r)+ redAcc;
+        greenAcc = (weight * update.g)+ greenAcc ;
+        blueAcc =  (weight *  update.b) + blueAcc;
 
 
 

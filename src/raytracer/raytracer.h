@@ -16,7 +16,7 @@ class RayTracer
 public:
 
     bool dofEnable = true;
-    int sample = 6;
+    int sample = 9;
 
     struct Config {
         bool enableShadow        = false;
@@ -29,8 +29,8 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 0.161f;
-        float focalLength = 3.f; //13.f for larger scene
+        float apperture = 0.0001f;
+        float focalLength = 13.f; //13.f for larger scene
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;
     };
