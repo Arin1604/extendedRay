@@ -29,7 +29,7 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 0.0001f;
+        float apperture = 2.1f;
         float focalLength = 13.f; //13.f for larger scene
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;

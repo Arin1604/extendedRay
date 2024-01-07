@@ -220,6 +220,8 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
         glm::vec3 newPosT = glm::vec3(primaryRay.pos) + m_config.apperture * glm::vec3(offsetPos);
         glm::vec4 newPos(newPosT, primaryRay.pos[3]);
+//        glm::vec2 newPosT = glm::vec2(primaryRay.pos) + m_config.apperture * glm::vec2(offsetPos);
+//        glm::vec4 newPos(newPosT, primaryRay.pos[2], primaryRay.pos[3]);
         glm::vec4 newDir = glm::normalize(focalPoint - newPos);
 
         float weight = 1.f;

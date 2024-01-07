@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
     std::cout << "x 3/4: " << x18 << " z 3/4: " << z18 << std::endl;
 
     //Animation params
-    bool isVideo = true;
+    bool isVideo = false;
     bool focalVariation = false;
     bool appertureVar = false;
     bool move = true;
