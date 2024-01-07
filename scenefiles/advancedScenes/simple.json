@@ -25,7 +25,7 @@
     {
       "groups": [
         {
-            "translate": [ -1.0, 0.0, 0.0 ],
+            "translate": [ -4.0, 0.0, 0.0 ],
             "primitives": [
                 {
                     "type": "sphere",

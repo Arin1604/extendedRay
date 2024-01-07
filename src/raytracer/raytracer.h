@@ -33,6 +33,9 @@ public:
         float focalLength = 13.f; //13.f for larger scene
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;
+        float zTranslate = 0.f;
+        float xTranslate = 0.f;
+        float yTranslate = 0.f;
     };
 
     ///

@@ -38,6 +38,9 @@ float getminPos(std::vector<float> t_array){
     return t_min_pos;
 }
 
+
+
+
 //TESTS getMinPos
 void testMinPos(){
     auto y = std::vector{ -1.0f, 2.5f, -3.0f, 6.0f, 1.0f, -8.0f};
@@ -80,6 +83,7 @@ RayTracer::textureInfo loadTextureFromFile(const QString &file) {
 
 
 
+
 /*!
     @param:
     RGBA imageData: Pointer to the first pixel of the viewing plane through which the ray is traced
@@ -96,7 +100,10 @@ RayTracer::textureInfo loadTextureFromFile(const QString &file) {
 */
 void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
 
+
+
     if(!dofEnable){
+
 
 
         map<string, RayTracer::textureInfo> textureMap;
@@ -143,7 +150,7 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
                     doPrint = true;
                 }
                 RayTraceScene scene1 = scene;
-                imageData[j * scene.width() + i] = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap);
+                imageData[j * scene.width() + i] = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap, glm::vec3(m_config.xTranslate, 0.f, m_config.zTranslate));
                 doPrint = false;
 
 
@@ -221,8 +228,8 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
         Ray newRay{newPos, newDir};
 
 
-        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap);
-       // std::cout<< weight << std::endl;
+        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap, glm::vec3(m_config.xTranslate, m_config.yTranslate, m_config.zTranslate));
+        // std::cout<< weight << std::endl;
         redAcc =   (weight * update.r)+ redAcc;
         greenAcc = (weight * update.g)+ greenAcc ;
         blueAcc =  (weight *  update.b) + blueAcc;

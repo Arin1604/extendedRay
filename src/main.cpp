@@ -50,6 +50,40 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    float total = 240;
+
+    bool increment = false;
+    //int x = -3;
+
+    //    for(int i = 0; i < 240; i++){
+    ////        if(x == -3){
+    ////            increment = false;;
+    ////        }
+
+    ////        if(x == -5){
+    ////            increment = true;
+    ////        }
+
+    ////        if(increment){
+    ////            x++;
+    ////        }
+
+    ////        else{
+    ////            x--;
+    ////        }
+
+    ////        float a = pow(x + 4, 2);
+    ////        float z = sqrt(1 - a);
+
+    //        float angle = (i/total) * M_PI;
+    //        float x = sin(angle);
+    //       // float y = s
+
+    //        std::cout << x << std::endl;
+
+    //    }
+
+
     QSettings settings( positionalArgs[0], QSettings::IniFormat );
     QString iScenePath = settings.value("IO/scene").toString();
     QString oImagePath = settings.value("IO/output").toString();
@@ -88,11 +122,35 @@ int main(int argc, char *argv[])
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
 
 
+    float angle0 = (3 *M_PI/2) + (0/total) * M_PI;
+    float z0 = cos(angle0);
+    float x0 = sin(angle0);
+
+    std::cout << "x 0: " << x0 << " z 0: " << z0 << std::endl;
+
+    float angle14 = (3 *M_PI/2) + (60/total) * M_PI;
+    float z14 = cos(angle14);
+    float x14 = sin(angle14);
+
+    std::cout << "x 1/4: " << x14 << " z 1/4: " << z14 << std::endl;
+
+    float angle12 = (3 *M_PI/2) + (120/total) * 2 * M_PI;
+    float z12 = cos(angle12);
+    float x12 = sin(angle12);
+
+    std::cout << "x 1/2: " << x12 << " z 1/2: " << z12 << std::endl;
+
+    float angle18 = (3 *M_PI/2) + (180/total) * M_PI;
+    float z18 = cos(angle18);
+    float x18 = sin(angle18);
+
+    std::cout << "x 3/4: " << x18 << " z 3/4: " << z18 << std::endl;
+
     //Animation params
-    bool isVideo = false;
-    bool focalVariation = true;
+    bool isVideo = true;
+    bool focalVariation = false;
     bool appertureVar = false;
-    bool planeZVar = false;
+    bool move = true;
 
     //TODO: Refactor code below into helper
 
@@ -108,17 +166,27 @@ int main(int argc, char *argv[])
                 type = "focalChange";
             }
 
-            else if(planeZVar){
-                rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
-                type = "zChange";
+            else if(move){
+                //rtConfig.planeZ =    rtConfig.planeZ + 0.1f;
+                type = "movement";
+                float angle = (3 *M_PI/2) + (i/total) * M_PI;
+                float z = cos(angle);
+                float x = sin(angle);
+                rtConfig.xTranslate = x;
+                rtConfig.zTranslate = z;
             }
 
             else if(appertureVar){
                 rtConfig.apperture =    rtConfig.apperture + 0.007f;
+
                 type = "apertureChange";
             }
 
-            RayTracer raytracer{ rtConfig };
+
+
+
+
+                RayTracer raytracer{ rtConfig };
 
             RayTraceScene rtScene{ width, height, metaData };
 

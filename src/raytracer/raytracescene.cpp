@@ -3,6 +3,12 @@
 #include "utils/sceneparser.h"
 #include "raytracer.h"
 #include<iostream>
+#include "raytracer.h"
+#include "glm/gtx/string_cast.hpp"
+#include "qimage.h"
+#include "raytracescene.h"
+#include <iostream>
+#include <map>
 
 
 /*!
@@ -103,8 +109,8 @@ RGBA toRGBA(const glm::vec4 &illumination) {
     return RGBA{r, g, b};
 }
 
-glm::mat4 translator(float dx, float dy, float dz){
-    return glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dx, dy, dz, 1);
+glm::mat4 translator(glm::vec3 translate){
+    return glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, translate[0], translate[1], translate[2], 1);
 }
 
 
@@ -129,16 +135,19 @@ glm::mat4 translator(float dx, float dy, float dz){
 */
 //NOTE ON "CLOSEST OBJECT": it refers to the object that is closest to the camera, and is hence visible
 
-glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap) const {
+glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const {
     std::vector<RayTracer::surfaceStruct> t_vals;
     int c = count + 1;
+
+
+
 
 
     //MAIN SHAPE LOOP
     for(int i = 0; i < MetaData.shapes.size(); i++){
         RenderShapeData r = MetaData.shapes[i];
-        glm::mat4 o = translator(0.f,0.f,0.2f) * r.ctm;
-        glm::mat4 p = glm::inverse(o);// Coord transformation
+        r.ctm = translator(translate) * r.ctm;
+        glm::mat4 p = glm::inverse(r.ctm);// Coord transformation
 
         //glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
         RayTracer::Ray objectRay = convertRaySpace(worldRay, p);
@@ -178,7 +187,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
             glm::vec4 dirReflected = dirIncident - normalFactor;
             RayTracer::Ray reflectedRay{posReflected + 0.001f * dirReflected, dirReflected};
 
-            indirectIllum = traceRay(reflectedRay, false, scene, c, textureMap);
+            indirectIllum = traceRay(reflectedRay, false, scene, c, textureMap,translate);
             indirectIllum[0] *= getGlobalData().ks * closestObject.shape.primitive.material.cReflective[0];
             indirectIllum[1] *=  getGlobalData().ks *closestObject.shape.primitive.material.cReflective[1];
             indirectIllum[2] *= getGlobalData().ks * closestObject.shape.primitive.material.cReflective[2];
@@ -204,8 +213,8 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 ///
 /// Converts results from traceRay into an RGBA struct and returns it to the raytracer
 ///
-RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap) const{
-    return toRGBA(traceRay(worldRay, doPrint, scene, count, textureMap));
+RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const{
+    return toRGBA(traceRay(worldRay, doPrint, scene, count, textureMap, translate));
 
 
 
