@@ -22,9 +22,9 @@ public:
     SceneCameraData camData;
     Camera cam;
     
-    glm::vec4 traceRay(RayTracer::Ray  worldRay, bool doPrint, RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const;
+    glm::vec4 traceRay(RayTracer::Ray  worldRay, bool doPrint, RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, int translate) const;
     RayTracer::Ray convertRaySpace(RayTracer::Ray  worldRay, glm::mat4 p) const;
-    RGBA getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const;
+    RGBA getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, int translate) const;
     static RayTracer::intersectInfo getIntersection(RenderShapeData shape, RayTracer::Ray ray);
     static RayTracer::surfaceStruct getminPos(std::vector<RayTracer::surfaceStruct> &t_StrucArray);
     bool blocked(SceneLightData light, glm::vec3 intersectPos, bool doPrint);

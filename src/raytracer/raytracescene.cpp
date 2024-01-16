@@ -109,6 +109,118 @@ RGBA toRGBA(const glm::vec4 &illumination) {
     return RGBA{r, g, b};
 }
 
+glm::vec3 locComputer(int identifier, float radius, int incrementer){
+    float angle1 = (3 *M_PI/2) + (0.f/240.f) * M_PI;
+    float angle;
+
+
+    ///
+    /// \brief frameCoeff
+    /// // DETERMINES THE NUMBER OF FRAMES FOR WHICH THE ANIMATION RUNS
+    ///
+    /// \cond set to 1.f for 240 frames, scale appropriately for higer/lower frames
+    ///
+    float frameCoeff = 2.f;
+
+    float offset= M_PI/16.f;
+
+    float x;
+    float y;
+    float z;
+
+
+    if(identifier == 0){
+        z = radius * cos(angle1);
+        x = radius * sin(angle1);
+        y = (0.25* sin(2 * angle1)) + (0.75f*cos(0.7f * angle1));
+
+        //return glm::vec3(x, y, z );
+    }
+
+    else if(identifier == 1){
+        float angle = (0 + M_PI/5.5) - (incrementer/(frameCoeff *960.f)) * M_PI;
+        float a = -15.524f;
+        float b = -15.524f;
+        radius = 15.0 * a * cos(angle) + 15.0 * b * sin(angle);
+
+        z =  radius * cos(angle) + 80.f;
+        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
+        x =  radius * sin(angle) - 0.f;
+
+        // return glm::vec3(x, y, z );
+
+    }
+
+    else if(identifier == 2){
+        float angle = (0 - M_PI/10.0) + (incrementer/(frameCoeff *960.f)) * M_PI;
+        float a = -15.524f;
+        float b = -15.524f;
+        radius = 30.0 * a * cos(angle) + 30.0 * b * sin(angle);
+        //    radius =  radius * sin(6 * angle);
+        //    z =  radius * cos(angle);
+        //    x = 0.f;
+        //    y =  radius * sin(angle);
+        z =  radius * cos(angle) + 80.f;
+        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
+        x =  radius * sin(angle) - 0.f;
+
+        //return glm::vec3(x, y, z );
+
+    }
+
+    else if(identifier == 3){
+        float angle = (-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) ;
+        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        z =   radius * sin(angle) + 30.f;
+        x = radius * cos(angle) - 1.f;
+        y = 0.f;
+    }
+
+    else if(identifier == 4){
+        float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ offset;
+        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        z =   radius * sin(angle) + 30.f;
+        x = radius * cos(angle) - 1.f;
+        y = 0.f;
+    }
+
+    else if(identifier == 5){
+        float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ (2 *offset);
+        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        z =   radius * sin(angle) + 30.f;
+        x = radius * cos(angle) - 1.f;
+        y = 0.f;
+    }
+
+    else if(identifier == 6){
+        float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (1 *offset);
+        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        z =   radius * sin(angle) + 30.f;
+        x = radius * cos(angle) - 1.f;
+        y = 0.f;
+    }
+
+    else if(identifier == 7){
+        float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (2 *offset);
+        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        z =   radius * sin(angle) + 30.f;
+        x = radius * cos(angle) - 1.f;
+        y = 0.f;
+    }
+
+    //CHECK POINT LOL
+    // YOO HOO
+
+    else{
+        z =  0.f;
+        x = 0.f;
+        y =  0.f;
+    }
+
+    return glm::vec3(x,y,z);
+
+}
+
 glm::mat4 translator(glm::vec3 translate){
     return glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, translate[0], translate[1], translate[2], 1);
 }
@@ -135,7 +247,7 @@ glm::mat4 translator(glm::vec3 translate){
 */
 //NOTE ON "CLOSEST OBJECT": it refers to the object that is closest to the camera, and is hence visible
 
-glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const {
+glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap,int translate) const {
     std::vector<RayTracer::surfaceStruct> t_vals;
     int c = count + 1;
 
@@ -146,14 +258,15 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
     //MAIN SHAPE LOOP
     for(int i = 0; i < MetaData.shapes.size(); i++){
         RenderShapeData r = MetaData.shapes[i];
-        r.ctm = translator(translate) * r.ctm;
+        r.ctm = translator(locComputer(i,1, translate)) * r.ctm;
+        r.primitive.material.shininess = 2.f;
         glm::mat4 p = glm::inverse(r.ctm);// Coord transformation
 
         //glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
         RayTracer::Ray objectRay = convertRaySpace(worldRay, p);
 
         RayTracer::intersectInfo intInf = RayTraceScene::getIntersection(MetaData.shapes[i], objectRay);
-        RayTracer::surfaceStruct objectProps = {intInf.t, intInf.position, intInf.normal, MetaData.shapes[i], intInf.u, intInf.v};
+        RayTracer::surfaceStruct objectProps = {intInf.t, intInf.position, intInf.normal, MetaData.shapes[i], intInf.u, intInf.v, i};
 
 
 
@@ -174,6 +287,12 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         //std::cout << closestObject.normal[0] << "," << closestObject.normal[1] << "," << closestObject.normal[2] << std::endl;
         glm::vec4 normal = glm::vec4(glm::inverse(glm::transpose(ctm)) * glm::vec3(closestObject.normal), 0.f);
         glm::vec3 pos = closestObject.shape.ctm * closestObject.pos;
+
+        //animate shininess here
+        if(closestObject.i == 1){
+        //closestObject.shape.primitive.material.shininess *= 0.f;
+        }
+
         glm::vec4 directIllumination = RayTraceScene::phong(pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, texture);
         glm::vec4 indirectIllum(0.f);
 
@@ -213,7 +332,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 ///
 /// Converts results from traceRay into an RGBA struct and returns it to the raytracer
 ///
-RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, glm::vec3 translate) const{
+RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, int translate) const{
     return toRGBA(traceRay(worldRay, doPrint, scene, count, textureMap, translate));
 
 

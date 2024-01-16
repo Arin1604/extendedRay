@@ -29,10 +29,11 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 2.1f;
-        float focalLength = 13.f; //13.f for larger scene
+        float apperture = 1.1f;
+        float focalLength = 16.f; //13.f for larger scene
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;
+        int increment;
         float zTranslate = 0.f;
         float xTranslate = 0.f;
         float yTranslate = 0.f;
@@ -78,6 +79,7 @@ public:
         RenderShapeData shape;
         float u;
         float v;
+        int i;
 
 
     };

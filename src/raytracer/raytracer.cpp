@@ -150,7 +150,7 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
                     doPrint = true;
                 }
                 RayTraceScene scene1 = scene;
-                imageData[j * scene.width() + i] = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap, glm::vec3(m_config.xTranslate, 0.f, m_config.zTranslate));
+                imageData[j * scene.width() + i] = scene.getUpdatedPixel(worldRay, doPrint, scene1, 0, textureMap, m_config.increment);
                 doPrint = false;
 
 
@@ -230,7 +230,7 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
         Ray newRay{newPos, newDir};
 
 
-        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap, glm::vec3(m_config.xTranslate, m_config.yTranslate, m_config.zTranslate));
+        RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap, m_config.increment);
         // std::cout<< weight << std::endl;
         redAcc =   (weight * update.r)+ redAcc;
         greenAcc = (weight * update.g)+ greenAcc ;
