@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
             }
 
             else if(animate){
-                rtConfig.increment = 480;
+                rtConfig.increment = i;
             }
 
             else if(appertureVar){

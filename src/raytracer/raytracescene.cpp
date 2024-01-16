@@ -120,7 +120,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
     ///
     /// \cond set to 1.f for 240 frames, scale appropriately for higer/lower frames
     ///
-    float frameCoeff = 2.f;
+    float frameCoeff = 1.f;
 
     float offset= M_PI/16.f;
 
@@ -290,8 +290,15 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
         //animate shininess here
         if(closestObject.i == 1){
-        //closestObject.shape.primitive.material.shininess *= 0.f;
+        closestObject.shape.primitive.material.shininess *= abs(7.5f * sin(0.5f * translate/240.f * M_PI));;
         }
+
+        if(closestObject.i == 2){
+        closestObject.shape.primitive.material.shininess = abs(7.5f * cos(0.5f * translate/240.f * M_PI));
+
+        }
+
+
 
         glm::vec4 directIllumination = RayTraceScene::phong(pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, texture);
         glm::vec4 indirectIllum(0.f);

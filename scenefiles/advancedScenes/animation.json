@@ -62,6 +62,26 @@
             ]
         },
         {
+            "translate": [ -1.762, 3.88, -297.0 ],
+            "lights": [
+                {
+                    "type": "point",
+                    "color": [ 1.0, 0.19, 0.19 ],
+                    "attenuationCoeff": [ 1.0, 0, 0 ]
+                }
+            ]
+        },
+        {
+            "translate": [ 63.17, 1.470, -128.02 ],
+            "lights": [
+                {
+                    "type": "point",
+                    "color": [ 1.0, 0.75, 0.0 ],
+                    "attenuationCoeff": [ 1.0, 0, 0 ]
+                }
+            ]
+        },
+        {
             "translate": [ 0.0, -100.0, 1.0 ],
             "lights": [
                 {
@@ -97,14 +117,14 @@
                                     "type": "sphere",
                                     "ambient": [ 1.0, 0.0, 1.0 ],
                                     "diffuse": [ 1.0, 0.0, 1.0 ],
-                                    "specular": [ 1.0, 1.0, 1.0 ],
-                                    "shininess": 30.0
+                                    "specular": [ 0.1, 0.1, 0.1 ],
+                                    "shininess": 0.0
                                 }
                             ]
                         },
                         {
                             "translate": [ -0.0, -20.0, -70.0 ],
-                            "scale": [ 29.0, 29.0, 29.0 ],
+                            "scale": [ 40.0, 40.0, 40.0 ],
                             "primitives": [
                                 {
                                     "type": "sphere",
@@ -134,9 +154,9 @@
                             "primitives": [
                                 {
                                     "type": "sphere",
-                                    "ambient": [ 1.0, 1.0, 1.0 ],
-                                    "diffuse": [ 1.0, 1.0, 1.0 ],
-                                    "specular": [ 1.0, 0.67, 0.1 ],
+                                    "ambient": [ 1.0, 0.67, 0.2 ],
+                                    "diffuse": [ 1.0, 0.67, 0.1 ],
+                                    "specular": [ 0.945, 0.67, 0.1 ],
                                     "shininess": 30.0
                                 }
                             ]
@@ -147,9 +167,9 @@
                             "primitives": [
                                 {
                                     "type": "sphere",
-                                    "ambient": [ 0.0, 1.0, 1.0 ],
-                                    "diffuse": [ 0.0, 1.0, 1.0 ],
-                                    "specular": [ 1.0, 0.67, 0.1 ],
+                                    "ambient": [ 0.204, 0.3843, 0.682 ],
+                                    "diffuse": [ 0.204, 0.3843, 0.682 ],
+                                    "specular": [ 0.204, 0.3843, 0.682 ],
                                     "shininess": 30.0
                                 }
                             ]
@@ -160,8 +180,8 @@
                             "primitives": [
                                 {
                                     "type": "sphere",
-                                    "ambient": [ 1.0, 0.0, 1.0 ],
-                                    "diffuse": [ 1.0, 0.0, 1.0 ],
+                                    "ambient": [ 0.4156, 0.68, 0.2667 ],
+                                    "diffuse": [ 0.4156, 0.68, 0.2667 ],
                                     "specular": [ 1.0, 0.67, 0.1 ],
                                     "shininess": 30.0
                                 }
