@@ -120,7 +120,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
     ///
     /// \cond set to 1.f for 240 frames, scale appropriately for higer/lower frames
     ///
-    float frameCoeff = 1.f;
+    float frameCoeff = 2.f;
 
     float offset= M_PI/16.f;
 
@@ -170,7 +170,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
 
     else if(identifier == 3){
         float angle = (-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) ;
-        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
@@ -178,7 +178,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
 
     else if(identifier == 4){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ offset;
-        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
@@ -186,7 +186,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
 
     else if(identifier == 5){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ (2 *offset);
-        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
@@ -194,7 +194,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
 
     else if(identifier == 6){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (1 *offset);
-        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
@@ -202,20 +202,90 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
 
     else if(identifier == 7){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (2 *offset);
-        radius = 0.5 * (7 + 20 * sin(angle + M_PI));
+        radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
     }
 
-    //CHECK POINT LOL
-    // YOO HOO
+
 
     else{
         z =  0.f;
         x = 0.f;
         y =  0.f;
     }
+
+    return glm::vec3(x,y,z);
+
+}
+
+glm::vec3 locComputer2(int identifier, float radius, int incrementer){
+    float angle1 = (3 *M_PI/2) + (0.f/240.f) * M_PI;
+    float angle;
+
+
+    ///
+    /// \brief frameCoeff
+    /// // DETERMINES THE NUMBER OF FRAMES FOR WHICH THE ANIMATION RUNS
+    ///
+    /// \cond set to 1.f for 240 frames, scale appropriately for higer/lower frames
+    ///
+    float frameCoeff = 1.f;
+
+    float offset= M_PI/16.f;
+
+    float x;
+    float y;
+    float z;
+
+
+    if(identifier == 3){
+        angle = (-0/(frameCoeff *480.f)) * M_PI + (M_PI/6);
+
+        radius =  5 * cos((3) * angle);
+        z =  0.f;
+        x = radius * sin(angle);
+        y =  radius * cos(angle);
+
+
+    }
+
+    else if(identifier == 0){
+        angle = (-incrementer/(frameCoeff *480.f)) * M_PI + (M_PI/2);
+
+        radius =  5 * cos((3) * angle);
+        z =  0.f;
+        x = radius * sin(angle);
+        y =  radius * cos(angle);
+
+    }
+
+
+
+    else if(identifier == 1){
+        angle = (-incrementer/(frameCoeff *480.f)) * M_PI + (M_PI/6);
+
+        radius =  5 * cos((3) * angle);
+        z =  0.f;
+        x = radius * sin(angle);
+        y =  radius * cos(angle);
+
+    }
+
+
+
+    else if(identifier == 2){
+        angle = 2.609 + ((-incrementer/(frameCoeff *480.f)) * M_PI);
+
+        radius =  5 * cos((3) * angle);
+        z =  0.f;
+        x = radius * sin(angle);
+        y =  radius * cos(angle);
+
+    }
+
+
 
     return glm::vec3(x,y,z);
 
@@ -258,8 +328,10 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
     //MAIN SHAPE LOOP
     for(int i = 0; i < MetaData.shapes.size(); i++){
         RenderShapeData r = MetaData.shapes[i];
-        r.ctm = translator(locComputer(i,1, translate)) * r.ctm;
-        r.primitive.material.shininess = 2.f;
+
+        //LOPSIDES
+        r.ctm = translator(locComputer2(i,1, translate)) * r.ctm;
+        //r.primitive.material.shininess = 2.f;
         glm::mat4 p = glm::inverse(r.ctm);// Coord transformation
 
         //glm::mat4 p = glm::inverse(MetaData.shapes[i].ctm);// Coord transformation
@@ -290,11 +362,11 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
         //animate shininess here
         if(closestObject.i == 1){
-        closestObject.shape.primitive.material.shininess *= abs(7.5f * sin(0.5f * translate/240.f * M_PI));;
+        closestObject.shape.primitive.material.shininess *= abs(7.5f * sin(0.5f * translate/480.f * M_PI));;
         }
 
         if(closestObject.i == 2){
-        closestObject.shape.primitive.material.shininess = abs(7.5f * cos(0.5f * translate/240.f * M_PI));
+        //closestObject.shape.primitive.material.shininess = abs(7.5f * cos(0.5f * translate/480.f * M_PI));
 
         }
 

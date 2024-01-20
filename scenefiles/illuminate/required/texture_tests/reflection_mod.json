@@ -1,0 +1,423 @@
+{
+
+    "name": "root",
+    "globalData": {
+        "ambientCoeff": 0.2,
+        "diffuseCoeff": 0.5,
+        "specularCoeff": 0.5,
+        "transparentCoeff": 0
+    },
+    "cameraData": {
+        "position": [
+            -0.533836,
+            -1.427882,
+            24.97328
+        ],
+        "up": [
+            0.004408929922229147,
+            0.9997470494964377,
+            -0.02205444082511537
+        ],
+        "heightAngle": 45,
+        "look": [
+            0.015659,
+            -0.028372,
+            -0.980072
+        ]
+    },
+    "groups": [
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "type": "directional",
+                    "direction": [
+                        -2,
+                        -4,
+                        -6
+                    ]
+                }
+            ],
+            "translate": [
+                -0.42,
+                1.45,
+                -21.11
+            ],
+            "rotate": [
+                0,
+                27,
+                0,
+                0
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        0.761,
+                        0
+                    ],
+                    "type": "directional",
+                    "direction": [
+                        -3,
+                        1,
+                        -6
+                    ]
+                }
+            ],
+            "translate": [
+                7,
+                0,
+                0
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "type": "point",
+                    "attenuationCoeff": [
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "translate": [
+                -7.28,
+                3.44,
+                -21.58
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        0.761,
+                        0
+                    ],
+                    "type": "point",
+                    "attenuationCoeff": [
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "translate": [
+                2.83,
+                6.4,
+                -15.26
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "type": "point",
+                    "attenuationCoeff": [
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "translate": [
+                -7.76,
+                6.27,
+                -21.19
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        1,
+                        0.761,
+                        0
+                    ],
+                    "type": "point",
+                    "attenuationCoeff": [
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "translate": [
+                3.57,
+                3.97,
+                -16.14
+            ]
+        },
+        {
+            "lights": [
+                {
+                    "color": [
+                        0.878,
+                        0.067,
+                        0.373
+                    ],
+                    "type": "point",
+                    "attenuationCoeff": [
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "translate": [
+                3.6,
+                4.36,
+                -12.28
+            ]
+        },
+        {
+            "groups": [
+                {
+                    "translate": [
+                        0,
+                        3,
+                        0
+                    ],
+                    "rotate": [
+                        0,
+                        0,
+                        1,
+                        90
+                    ],
+                    "groups": [
+                        {
+                            "primitives": [
+                                {
+                                    "ambient": [
+                                        0,
+                                        0,
+                                        1
+                                    ],
+                                    "diffuse": [
+                                        0,
+                                        0,
+                                        1
+                                    ],
+                                    "specular": [
+                                        0,
+                                        0,
+                                        1
+                                    ],
+                                    "reflective": [
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "shininess": 4,
+                                    "type": "sphere"
+                                }
+                            ],
+                            "translate": [
+                                0,
+                                0,
+                                -18.524
+                            ],
+                            "rotate": [
+                                0,
+                                1,
+                                0,
+                                90
+                            ],
+                            "scale": [
+                                1.3,
+                                1.3,
+                                1.3
+                            ]
+                        },
+                        {
+                            "primitives": [
+                                {
+                                    "ambient": [
+                                        1,
+                                        0,
+                                        0
+                                    ],
+                                    "diffuse": [
+                                        1,
+                                        0,
+                                        0
+                                    ],
+                                    "specular": [
+                                        1,
+                                        0.1,
+                                        0
+                                    ],
+                                    "reflective": [
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "shininess": 4,
+                                    "type": "sphere"
+                                }
+                            ],
+                            "translate": [
+                                0,
+                                0,
+                                -18.524
+                            ],
+                            "rotate": [
+                                0,
+                                1,
+                                0,
+                                90
+                            ],
+                            "scale": [
+                                1.3,
+                                1.3,
+                                1.3
+                            ]
+                        },
+                        {
+                            "primitives": [
+                                {
+                                    "ambient": [
+                                        1,
+                                        1,
+                                        0
+                                    ],
+                                    "diffuse": [
+                                        1,
+                                        1,
+                                        0
+                                    ],
+                                    "specular": [
+                                        1,
+                                        1,
+                                        0
+                                    ],
+                                    "reflective": [
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "shininess": 4,
+                                    "type": "sphere"
+                                }
+                            ],
+                            "translate": [
+                                0,
+                                0,
+                                -18.524
+                            ],
+                            "rotate": [
+                                0,
+                                1,
+                                0,
+                                90
+                            ],
+                            "scale": [
+                                1.3,
+                                1.3,
+                                1.3
+                            ]
+                        },
+                        {
+                            "primitives": [
+                                {
+                                    "ambient": [
+                                        1,
+                                        0.761,
+                                        0
+                                    ],
+                                    "diffuse": [
+                                        1,
+                                        0.761,
+                                        0
+                                    ],
+                                    "specular": [
+                                        1,
+                                        0.761,
+                                        0
+                                    ],
+                                    "reflective": [
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "shininess": 30,
+                                    "type": "sphere"
+                                }
+                            ],
+                            "translate": [
+                                0,
+                                0,
+                                -15.524
+                            ],
+                            "rotate": [
+                                0,
+                                1,
+                                0,
+                                90
+                            ],
+                            "scale": [
+                                3,
+                                3,
+                                3
+                            ]
+                        },
+                        {
+                            "primitives": [
+                                {
+                                    "ambient": [
+                                        0,
+                                        0,
+                                        0.005
+                                    ],
+                                    "diffuse": [
+                                        0,
+                                        0,
+                                        0.005
+                                    ],
+                                    "specular": [
+                                        0,
+                                        0,
+                                        0.5
+                                    ],
+                                    "reflective": [
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "shininess": 3,
+                                    "type": "cube"
+                                }
+                            ],
+                            "translate": [
+                                -7,
+                                0,
+                                0
+                            ],
+                            "scale": [
+                                0.1,
+                                101,
+                                101
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

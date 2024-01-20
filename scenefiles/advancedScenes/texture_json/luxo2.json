@@ -84,7 +84,7 @@
                                     "shininess": 30.0,
                                     "reflective": [ 0.5, 0.5, 0.5 ],
                                     "blend": 1.0,
-                                    "textureFile": "texture/luxo.png",
+                                    "textureFile": "texture/luxo2.png",
                                     "textureU": 1.0,
                                     "textureV": 1.0
 

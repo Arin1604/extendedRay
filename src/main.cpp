@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
 
 
-
+//LOPSIDES
 
     //Animation params
     bool isVideo = true;
@@ -102,13 +102,12 @@ int main(int argc, char *argv[])
     bool appertureVar = false;
     bool animate = true;
 
-    //TODO: Refactor code below into helper
 
     ///FOR ANIMATION WITH CHANGING FOCAL LENGTH
     ///
 
     if (isVideo){
-        for(int i = 0; i <240; i++){
+        for(int i = 0; i <480; i++){
             std::string type;
 
             if(focalVariation){
@@ -169,7 +168,7 @@ int main(int argc, char *argv[])
         QStringList list =  oImagePath.split(u'.');
         QString element = list.at(0);
         QString elt2 = list.at(1);
-        QString elt3 = element.append(to_format(3)).append(".").append("png");
+        QString elt3 = element.append(to_format(3)).append("AAAA.").append("png");
 
         success = image.save(elt3);
         if (!success) {

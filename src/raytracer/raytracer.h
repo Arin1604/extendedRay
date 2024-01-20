@@ -14,8 +14,8 @@ class RayTraceScene;
 class RayTracer
 {
 public:
-
-    bool dofEnable = true;
+    //lopside
+    bool dofEnable = false;
     int sample = 9;
 
     struct Config {
