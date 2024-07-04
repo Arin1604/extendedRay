@@ -361,14 +361,14 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         glm::vec3 pos = closestObject.shape.ctm * closestObject.pos;
 
         //animate shininess here
-        if(closestObject.i == 1){
-        closestObject.shape.primitive.material.shininess *= abs(7.5f * sin(0.5f * translate/480.f * M_PI));;
-        }
+//        if(closestObject.i == 1){
+//        closestObject.shape.primitive.material.shininess *= abs(7.5f * sin(0.5f * translate/480.f * M_PI));;
+//        }
 
-        if(closestObject.i == 2){
-        //closestObject.shape.primitive.material.shininess = abs(7.5f * cos(0.5f * translate/480.f * M_PI));
+//        if(closestObject.i == 2){
+//        //closestObject.shape.primitive.material.shininess = abs(7.5f * cos(0.5f * translate/480.f * M_PI));
 
-        }
+//        }
 
 
 

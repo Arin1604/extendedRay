@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 //LOPSIDES
 
     //Animation params
-    bool isVideo = true;
+    bool isVideo = false;
     bool focalVariation = false;
     bool appertureVar = false;
     bool animate = true;
@@ -124,9 +124,6 @@ int main(int argc, char *argv[])
 
                 type = "apertureChange";
             }
-
-
-
 
 
                 RayTracer raytracer{ rtConfig };
