@@ -15,8 +15,8 @@ class RayTracer
 {
 public:
     //lopside
-    bool dofEnable = false;
-    int sample = 9;
+    bool dofEnable = true;
+
 
     struct Config {
         bool enableShadow        = false;
@@ -29,14 +29,15 @@ public:
         bool enableAcceleration  = false;
         bool enableDepthOfField  = false;
         int maxRecursiveDepth    = 4;
-        float apperture = 1.1f;
-        float focalLength = 16.f; //13.f for larger scene
+        float apperture = 4.1f;
+        float focalLength = 4.f; //13.f for larger scene
         float planeZ = 1.f;
         bool onlyRenderNormals   = false;
         int increment;
         float zTranslate = 0.f;
         float xTranslate = 0.f;
         float yTranslate = 0.f;
+        int sample = 100;
     };
 
     ///

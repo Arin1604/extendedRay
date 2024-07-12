@@ -207,16 +207,33 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
     glm::vec4 focalPoint(glm::vec3(primaryRay.dir) * m_config.focalLength, 1.f);
 
-    for(int i = 0; i < sample; i++){
+    if(doPrint){
+    std::cout << "Lens Distribution Info" << std::endl;
+    std::cout << "Primary Ray" << glm::to_string(glm::vec3(primaryRay.pos)) << std::endl;
+    //glm::to_string(glm::vec3(primaryRay.pos)) > someFile.txt;
+    std::cout << "Lens Focal Point" << glm::to_string(glm::vec3(focalPoint)) << std::endl;
+    }
+
+    std::string pointList;
+
+    for(int i = 0; i < m_config.sample; i++){
+
+        float a = 0.f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(1.f-(0.f))));
+        float b = 0.f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(1.f-(0.f))));
+
 
         float newX = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
         float newY = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
         float newZ = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
         float radius = 0.5f * m_config.apperture;
 
+        float y_disp = sqrtf(b) * cos(2 * M_PI * a);
+        float z_disp = sqrtf(b) * sin(2 * M_PI * a);
 
 
-        glm::vec4 offsetPos(newX, newY, newZ, primaryRay.pos[3]);
+
+        //glm::vec4 offsetPos(0, y_disp, z_disp, primaryRay.pos[3]);
+        glm::vec4 offsetPos(0, newY, newZ, primaryRay.pos[3]);
 
         glm::vec3 newPosT = glm::vec3(primaryRay.pos) + m_config.apperture * glm::vec3(offsetPos);
         glm::vec4 newPos(newPosT, primaryRay.pos[3]);
@@ -229,6 +246,16 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
         Ray newRay{newPos, newDir};
 
+        if(doPrint){
+         QString vec = QString::fromStdString(glm::to_string(glm::vec3(newPos)));
+         QStringList list =  vec.split(u'c');
+         QString element = list.at(1);
+         std::string coordinate_point = element.append(",").toStdString().erase(0,1);
+         pointList.append(coordinate_point);
+//         std::cout << pointList << std::endl;
+//        std::cout<< "Secondary Ray" << i<< "'s POS is"<< glm::to_string(glm::vec3(newPos)) << std::endl;
+        //std::cout<< "Secondary Ray" << i<< "'s DIR is"<< glm::to_string(glm::vec3(newPos)) << std::endl;
+        }
 
         RGBA update = scene.getUpdatedPixel(newRay, doPrint, scene, count, textureMap, m_config.increment);
         // std::cout<< weight << std::endl;
@@ -240,8 +267,11 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
 
     }
 
+    if(doPrint){
+   std::cout << pointList << std::endl;
+    }
 
-    return RGBA{static_cast<uint8_t>((redAcc/sample)), static_cast<uint8_t>((greenAcc/sample)), static_cast<uint8_t>((blueAcc/sample)), 255};
+    return RGBA{static_cast<uint8_t>((redAcc/m_config.sample)), static_cast<uint8_t>((greenAcc/m_config.sample)), static_cast<uint8_t>((blueAcc/m_config.sample)), 255};
 
 
 }
@@ -283,10 +313,11 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
 
     //Inverse works
-    bool doPrint = false;
+
     testMinPos();
     for(int j = 0; j < scene.height(); j++){
         for(int i = 0; i < scene.width(); i++){
+            bool doPrint = false;
             float k = 1.f;
             float x = ((i + 0.5)/(float)scene.width()) - 0.5;
             float y = (((float)scene.height() - 1 - j + 0.5)/(float)scene.height()) - 0.5;
@@ -306,6 +337,9 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
 
             RayTraceScene scene1 = scene;
 
+            if(i == 50 and j == 50){
+                doPrint = true;
+            }
 
             imageData[j * scene.width() + i] = lensMaker(worldRay, doPrint, scene1, 0, textureMap);/*RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};*/
 

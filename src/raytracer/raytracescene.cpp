@@ -345,6 +345,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         t_vals.push_back(objectProps);
     }
 
+    //This just gave us the closest positive value i.e. the surface
     RayTracer::surfaceStruct closestObject = RayTraceScene::getminPos(t_vals);
 
 
@@ -374,6 +375,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
         glm::vec4 directIllumination = RayTraceScene::phong(pos, normal, - worldRay.dir, closestObject.shape.primitive.material, MetaData.lights, getGlobalData(), doPrint, scene, texture);
         glm::vec4 indirectIllum(0.f);
+        glm::vec4 indirectIllumRefracted(0.f);
 
         //Recursive raytracing if the shape's surface is reflective
         if(c < 5 && closestObject.shape.primitive.material.cReflective != glm::vec4(0.f)){
@@ -393,11 +395,25 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
 
 
+        //For refraction:
+//        if( c < 5 && closestObject.shape.primitive.material.cTransparent != glm::vec4(0.f)){
+//            //get refracted Ray
+//            //trace ray through scene
+
+//            //update IndirectIllum Refracted
+//        }
+
+
+
         //Combination of the color obtained from:
         //directly incident ray
         //indirect rays from reflections
+        //indirect rays from refraction
         return directIllumination + indirectIllum;
     }
+
+
+
 
     else{
         return glm::vec4(0.f, 0.f, 0.f, 0.f);
@@ -412,6 +428,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 /// Converts results from traceRay into an RGBA struct and returns it to the raytracer
 ///
 RGBA RayTraceScene::getUpdatedPixel(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap, int translate) const{
+    //std::cout << "getting here after phong" <<std::endl;
     return toRGBA(traceRay(worldRay, doPrint, scene, count, textureMap, translate));
 
 

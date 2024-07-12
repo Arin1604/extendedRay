@@ -120,7 +120,6 @@
                                     "specular": [ 0.1, 0.1, 0.1 ],
                                     "reflective": [ 0.0, 0.0, 0.0 ],
                                     "blend": 1.0,
-                                    "textureFile": "texture/luxo6.png",
                                     "textureU": 1.0,
                                     "textureV": 1.0,
                                     "shininess": 0.0

@@ -43,6 +43,10 @@ int main(int argc, char *argv[])
     parser.addPositionalArgument("config", "Path of the config file.");
     parser.process(a);
 
+    ///NOTE: This line writes the stdout into a file raypos.txt located in the root folder
+    freopen("raypos.txt","w",stdout);
+
+
     auto positionalArgs = parser.positionalArguments();
     if (positionalArgs.size() != 1) {
         std::cerr << "Not enough arguments. Please provide a path to a config file (.ini) as a command-line argument." << std::endl;
@@ -92,13 +96,14 @@ int main(int argc, char *argv[])
     rtConfig.enableDepthOfField  = settings.value("Feature/depthoffield").toBool();
     rtConfig.maxRecursiveDepth   = settings.value("Settings/maximum-recursive-depth").toInt();
     rtConfig.onlyRenderNormals   = settings.value("Settings/only-render-normals").toBool();
+    rtConfig.sample = 100;
 
 
 //LOPSIDES
 
     //Animation params
     bool isVideo = false;
-    bool focalVariation = false;
+    bool focalVariation = true;
     bool appertureVar = false;
     bool animate = true;
 
@@ -116,7 +121,7 @@ int main(int argc, char *argv[])
             }
 
             else if(animate){
-                rtConfig.increment = i;
+                rtConfig.increment = 360;
             }
 
             else if(appertureVar){
@@ -165,7 +170,7 @@ int main(int argc, char *argv[])
         QStringList list =  oImagePath.split(u'.');
         QString element = list.at(0);
         QString elt2 = list.at(1);
-        QString elt3 = element.append(to_format(3)).append("AAAA.").append("png");
+        QString elt3 = element.append(to_format(3)).append("SamplesOld").append(QString::number(rtConfig.sample)).append(".png");
 
         success = image.save(elt3);
         if (!success) {
