@@ -42,7 +42,7 @@
               "specular": [1.0, 1.0, 1.0],
               "shininess": 15.0,
               "reflective": [0.2, 0.2, 0.2],
-              "transparent": [0.8, 0.8, 0.8],
+              "transparent": [1.0, 1.0, 1.0],
               "ior": 1.6
             }
           ]

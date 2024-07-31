@@ -15,7 +15,7 @@ class RayTracer
 {
 public:
     //lopside
-    bool dofEnable = true;
+    bool dofEnable = false;
 
 
     struct Config {

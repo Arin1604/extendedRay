@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     parser.process(a);
 
     ///NOTE: This line writes the stdout into a file raypos.txt located in the root folder
-    freopen("raypos.txt","w",stdout);
+    //freopen("raypos.txt","w",stdout);
 
 
     auto positionalArgs = parser.positionalArguments();
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     bool isVideo = false;
     bool focalVariation = true;
     bool appertureVar = false;
-    bool animate = true;
+    bool animate = false;
 
 
     ///FOR ANIMATION WITH CHANGING FOCAL LENGTH
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
             std::string type;
 
             if(focalVariation){
-                rtConfig.focalLength =    rtConfig.focalLength + 0.1f;
+                rtConfig.focalLength =    rtConfig.focalLength + 1.f;
                 type = "focalChange";
             }
 
@@ -170,7 +170,8 @@ int main(int argc, char *argv[])
         QStringList list =  oImagePath.split(u'.');
         QString element = list.at(0);
         QString elt2 = list.at(1);
-        QString elt3 = element.append(to_format(3)).append("SamplesOld").append(QString::number(rtConfig.sample)).append(".png");
+        //QString elt3 = element.append(to_format(3)).append("SamplesOld").append(QString::number(rtConfig.focalLength)).append(".png");
+        QString elt3 = element.append(to_format(3)).append("recract5").append(".png");
 
         success = image.save(elt3);
         if (!success) {

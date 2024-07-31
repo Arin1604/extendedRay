@@ -320,6 +320,7 @@ glm::mat4 translator(glm::vec3 translate){
 glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTraceScene &scene,int count, std::map<std::string, RayTracer::textureInfo>& textureMap,int translate) const {
     std::vector<RayTracer::surfaceStruct> t_vals;
     int c = count + 1;
+    int r_c = count + 1;
 
 
 
@@ -330,7 +331,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         RenderShapeData r = MetaData.shapes[i];
 
         //LOPSIDES
-        r.ctm = translator(locComputer2(i,1, translate)) * r.ctm;
+        //r.ctm = translator(locComputer2(i,1, translate)) * r.ctm;
         //r.primitive.material.shininess = 2.f;
         glm::mat4 p = glm::inverse(r.ctm);// Coord transformation
 
@@ -396,12 +397,45 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
 
 
         //For refraction:
-//        if( c < 5 && closestObject.shape.primitive.material.cTransparent != glm::vec4(0.f)){
-//            //get refracted Ray
-//            //trace ray through scene
+        if( r_c < 10 && closestObject.shape.primitive.material.cTransparent != glm::vec4(0.f)){
+            //get refracted Ray
+            glm::vec4 posRefracted(pos, 1.f);
+            glm::vec4 dirIncident = glm::normalize(worldRay.dir);
+            glm::vec4 normNorm = glm::normalize(normal);
 
-//            //update IndirectIllum Refracted
-//        }
+            float cosThetaI = glm::dot(dirIncident, normNorm);
+            float etaI = 1.0f; //air
+            float etaT = closestObject.shape.primitive.material.ior; // Index of refraction of the material
+
+//            if (cosThetaI > 0) {
+//                // We are exiting the material
+//                std::swap(etaI, etaT);
+//                normNorm = -normNorm;
+//            }
+
+            float etaRatio = etaI / etaT;
+            float cosThetaIAbs = std::abs(cosThetaI);
+            float sin2ThetaI = std::max(0.0f, 1.0f - cosThetaIAbs * cosThetaIAbs);
+            float sin2ThetaT = etaRatio * etaRatio * sin2ThetaI;
+
+
+            //if(sin2ThetaT < 1.0f){
+                float cosThetaT = std::sqrt(1.0f - sin2ThetaT);
+                glm::vec4 dirRefracted = etaRatio * dirIncident + (etaRatio * cosThetaIAbs - cosThetaT) * normNorm;
+                dirRefracted = glm::normalize(glm::vec4(glm::mat3(closestObject.shape.ctm) * glm::vec3(dirRefracted), 0.0));
+                RayTracer::Ray refractedRay{posRefracted + 0.001f * dirRefracted, glm::normalize(dirRefracted)};
+
+                //std::cout << "Refraction about to happen for object no. " << closestObject.i <<std::endl;
+                //trace ray through scene
+                indirectIllumRefracted = traceRay(refractedRay, false, scene, r_c, textureMap,translate);
+
+                //update IndirectIllum Refracted
+                indirectIllumRefracted[0] *= getGlobalData().kt * closestObject.shape.primitive.material.cTransparent[0];
+                indirectIllumRefracted[1] *=  getGlobalData().kt *closestObject.shape.primitive.material.cTransparent[1];
+                indirectIllumRefracted[2] *= getGlobalData().kt * closestObject.shape.primitive.material.cTransparent[2];
+
+        //}
+        }
 
 
 
@@ -409,7 +443,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         //directly incident ray
         //indirect rays from reflections
         //indirect rays from refraction
-        return directIllumination + indirectIllum;
+        return directIllumination + indirectIllum +indirectIllumRefracted;
     }
 
 

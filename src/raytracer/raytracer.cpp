@@ -222,18 +222,18 @@ RGBA RayTracer::lensMaker(RayTracer::Ray  primaryRay, bool doPrint,RayTraceScene
         float b = 0.f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(1.f-(0.f))));
 
 
-        float newX = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
-        float newY = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
-        float newZ = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
-        float radius = 0.5f * m_config.apperture;
+//        float newX = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+//        float newY = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+//        float newZ = -0.5f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.5f-(-0.5f))));
+//        float radius = 0.5f * m_config.apperture;
 
         float y_disp = sqrtf(b) * cos(2 * M_PI * a);
         float z_disp = sqrtf(b) * sin(2 * M_PI * a);
 
 
 
-        //glm::vec4 offsetPos(0, y_disp, z_disp, primaryRay.pos[3]);
-        glm::vec4 offsetPos(0, newY, newZ, primaryRay.pos[3]);
+        glm::vec4 offsetPos(0, y_disp, z_disp, primaryRay.pos[3]);
+        //glm::vec4 offsetPos(0, newY, newZ, primaryRay.pos[3]);
 
         glm::vec3 newPosT = glm::vec3(primaryRay.pos) + m_config.apperture * glm::vec3(offsetPos);
         glm::vec4 newPos(newPosT, primaryRay.pos[3]);
