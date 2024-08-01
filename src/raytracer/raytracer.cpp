@@ -146,7 +146,7 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
 
 
 
-                if ( j == 650 && i == 500) {
+                if ( j == 312 && i == 485) {
                     doPrint = true;
                 }
                 RayTraceScene scene1 = scene;

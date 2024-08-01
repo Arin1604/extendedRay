@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     parser.process(a);
 
     ///NOTE: This line writes the stdout into a file raypos.txt located in the root folder
-    //freopen("raypos.txt","w",stdout);
+    //freopen("refract.txt","w",stdout);
 
 
     auto positionalArgs = parser.positionalArguments();
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
         QString element = list.at(0);
         QString elt2 = list.at(1);
         //QString elt3 = element.append(to_format(3)).append("SamplesOld").append(QString::number(rtConfig.focalLength)).append(".png");
-        QString elt3 = element.append(to_format(3)).append("recract5").append(".png");
+        QString elt3 = element.append(to_format(3)).append("usingNewAbsMessedupior").append(".png");
 
         success = image.save(elt3);
         if (!success) {

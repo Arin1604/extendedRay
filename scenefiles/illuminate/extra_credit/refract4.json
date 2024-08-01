@@ -57,7 +57,7 @@
                             "shininess": 15.0,
                             "reflective": [ 0.1, 0.1, 0.1 ],
                             "transparent": [ 1.0, 1.0, 1.0 ],
-                            "ior": 1.08
+                            "ior": 1.9
                         }
                     ]
                 },
@@ -71,7 +71,7 @@
                             "shininess": 15.0,
                             "reflective": [ 0.1, 0.1, 0.1 ],
                             "transparent": [ 1.0, 1.0, 1.0 ],
-                            "ior": 1.08
+                            "ior": 1.8
                         }
                     ]
                 },
@@ -85,7 +85,7 @@
                             "shininess": 15.0,
                             "reflective": [ 0.1, 0.1, 0.1 ],
                             "transparent": [ 1.0, 1.0, 1.0 ],
-                            "ior": 1.08
+                            "ior": 1.5
                         }
                     ]
                 },
@@ -100,7 +100,7 @@
                             "shininess": 15.0,
                             "reflective": [ 0.1, 0.1, 0.1 ],
                             "transparent": [ 1.0, 1.0, 1.0 ],
-                            "ior": 1.08
+                            "ior": 1.7
                         }
                     ]
                 },

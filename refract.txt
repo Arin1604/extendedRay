@@ -1,0 +1,5 @@
+Finished reading scenefiles/illuminate/extra_credit/refract4.json
+DFS
+DFS ENDS
+one
+p1vec4(-3.387712, 2.436344, 2.179755, 1.000000) p2vec4(0.294510, 0.232250, -0.386021, 1.000000)p3vec4(3.934861, -2.011686, -2.976891, 1.000000)Saved rendered image to "student_outputs/refract/refract10003recract5.png"
