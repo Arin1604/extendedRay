@@ -100,11 +100,7 @@ RayTracer::textureInfo loadTextureFromFile(const QString &file) {
 */
 void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
 
-
-
     if(!dofEnable){
-
-
 
         map<string, RayTracer::textureInfo> textureMap;
         if(m_config.enableTextureMap){
@@ -340,6 +336,8 @@ void RayTracer::DOF(RGBA *imageData, const RayTraceScene &scene){
             if(i == 50 and j == 50){
                 doPrint = true;
             }
+
+
 
             imageData[j * scene.width() + i] = lensMaker(worldRay, doPrint, scene1, 0, textureMap);/*RGBA{static_cast<uint8_t>((redAcc/6.f)), static_cast<uint8_t>((greenAcc/6.f)), static_cast<uint8_t>((blueAcc/6.f)), 255};*/
 

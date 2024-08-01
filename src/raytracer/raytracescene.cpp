@@ -295,12 +295,19 @@ glm::mat4 translator(glm::vec3 translate){
     return glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, translate[0], translate[1], translate[2], 1);
 }
 
-glm::vec4 getRefractedRayDir(glm::vec4 pos, glm::vec4 incident_ray, glm::vec4 normal, float abs_ri_material){
+glm::vec4 RayTraceScene::getRefractedRayDir(glm::vec4 pos, glm::vec4 incident_ray, glm::vec4 normal, float abs_ri_material){
     glm::vec4 dirIncident = glm::normalize(incident_ray);
     glm::vec4 normNorm = glm::normalize(normal);
 
     float abs_ri_medium = 1.0f;
     float ri = abs_ri_medium/abs_ri_material;
+
+        //            if (cosThetaI > 0) {
+        //                // We are exiting the material
+        //                std::swap(etaI, etaT);
+        //                normNorm = -normNorm;
+        //            }
+
 
     //calculating angles:
     float Cos_theta_i = glm::dot(dirIncident, normNorm); //since they are normalized magnitudes are 1 and we get cos on the left side
@@ -312,6 +319,8 @@ glm::vec4 getRefractedRayDir(glm::vec4 pos, glm::vec4 incident_ray, glm::vec4 no
 
     glm::vec4 r_parallel = ri * dirIncident;
     glm::vec4 r_perp = ((ri * Cos_theta_i) - cos_theta_r) * normNorm;
+
+    //if(sin2ThetaT < 1.0f){ Total Internal Reflection???
 
     return r_parallel + r_perp;
 
@@ -327,11 +336,7 @@ glm::vec4 getRefractedRayDir(glm::vec4 pos, glm::vec4 incident_ray, glm::vec4 no
 //    glm::vec4 point_on_i = posRefracted - 3.f * dirIncident;
 
 
-//    //            if (cosThetaI > 0) {
-//    //                // We are exiting the material
-//    //                std::swap(etaI, etaT);
-//    //                normNorm = -normNorm;
-//    //            }
+
 
 //    float etaRatio = etaI / etaT;
 //    float cosThetaIAbs = std::abs(cosThetaI);

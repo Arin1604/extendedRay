@@ -37,7 +37,8 @@ public:
                                    bool doPrint,
                                    RayTraceScene &scene, RGBA texture);
     static RGBA applyTexture(RayTracer::surfaceStruct closestObject, std::map<std::string, RayTracer::textureInfo>& textureMap);
-    //RayTracer::Ray getRefractedRay(glm::vec4 pos, glm::vec4 incident_ray, float refractive_index);
+    static glm::vec4 getRefractedRayDir(glm::vec4 pos, glm::vec4 incident_ray, glm::vec4 normal, float abs_ri_material);
+
     //GETTERS
     // The getter of the width of the scene
     const int& width() const;
