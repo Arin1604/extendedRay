@@ -120,7 +120,7 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
     ///
     /// \cond set to 1.f for 240 frames, scale appropriately for higer/lower frames
     ///
-    float frameCoeff = 2.f;
+    float frameCoeff = 1.f;
 
     float offset= M_PI/16.f;
 
@@ -138,75 +138,80 @@ glm::vec3 locComputer(int identifier, float radius, int incrementer){
     }
 
     else if(identifier == 1){
-        float angle = (0 + M_PI/5.5) - (incrementer/(frameCoeff *960.f)) * M_PI;
-        float a = -15.524f;
-        float b = -15.524f;
-        radius = 15.0 * a * cos(angle) + 15.0 * b * sin(angle);
+//        float angle = (0 + M_PI/5.5) - (incrementer/(frameCoeff *960.f)) * M_PI;
+//        float a = -15.524f;
+//        float b = -15.524f;
+//        radius = 15.0 * a * cos(angle) + 15.0 * b * sin(angle);
 
-        z =  radius * cos(angle) + 80.f;
-        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
-        x =  radius * sin(angle) - 0.f;
+//        z =  radius * cos(angle) + 80.f;
+//        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
+//        x =  radius * sin(angle) - 0.f;
 
         // return glm::vec3(x, y, z );
-
-    }
-
-    else if(identifier == 2){
-        float angle = (0 - M_PI/10.0) + (incrementer/(frameCoeff *960.f)) * M_PI;
-        float a = -15.524f;
-        float b = -15.524f;
-        radius = 30.0 * a * cos(angle) + 30.0 * b * sin(angle);
-        //    radius =  radius * sin(6 * angle);
-        //    z =  radius * cos(angle);
-        //    x = 0.f;
-        //    y =  radius * sin(angle);
-        z =  radius * cos(angle) + 80.f;
-        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
-        x =  radius * sin(angle) - 0.f;
-
-        //return glm::vec3(x, y, z );
-
-    }
-
-    else if(identifier == 3){
         float angle = (-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) ;
         radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
+
     }
 
-    else if(identifier == 4){
+    else if(identifier == 2){
+//        float angle = (0 - M_PI/10.0) + (incrementer/(frameCoeff *960.f)) * M_PI;
+//        float a = -15.524f;
+//        float b = -15.524f;
+//        radius = 30.0 * a * cos(angle) + 30.0 * b * sin(angle);
+//        //    radius =  radius * sin(6 * angle);
+//        //    z =  radius * cos(angle);
+//        //    x = 0.f;
+//        //    y =  radius * sin(angle);
+//        z =  radius * cos(angle) + 80.f;
+//        y = ((radius/14)* sin(6 * angle)); /*((radius/10)*cos(0.7f * angle));*/
+//        x =  radius * sin(angle) - 0.f;
+
+//        //return glm::vec3(x, y, z );
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ offset;
         radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
+
     }
 
-    else if(identifier == 5){
+    else if(identifier == 3){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )+ (2 *offset);
         radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
+
     }
 
-    else if(identifier == 6){
+    else if(identifier == 4){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (1 *offset);
         radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
+
     }
 
-    else if(identifier == 7){
+    else if(identifier == 5){
         float angle = ((-incrementer/(frameCoeff * 120.f)) * M_PI + (3 * M_PI/2) )- (2 *offset);
         radius = 0.5 * (7 + 23 * sin(angle + M_PI));
         z =   radius * sin(angle) + 30.f;
         x = radius * cos(angle) - 1.f;
         y = 0.f;
+
     }
+
+//    else if(identifier == 6){
+
+//    }
+
+//    else if(identifier == 7){
+
+//    }
 
 
 
@@ -330,7 +335,7 @@ glm::vec4 RayTraceScene::traceRay(RayTracer::Ray  worldRay, bool doPrint,RayTrac
         RenderShapeData r = MetaData.shapes[i];
 
         //LOPSIDES
-        r.ctm = translator(locComputer2(i,1, translate)) * r.ctm;
+        r.ctm = translator(locComputer(i,1, translate)) * r.ctm;
         //r.primitive.material.shininess = 2.f;
         glm::mat4 p = glm::inverse(r.ctm);// Coord transformation
 

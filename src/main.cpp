@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
     ///
 
     if (isVideo){
-        for(int i = 0; i <480; i++){
+        for(int i = 62; i <183; i++){
             std::string type;
 
             if(focalVariation){
